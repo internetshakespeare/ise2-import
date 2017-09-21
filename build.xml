@@ -63,14 +63,20 @@
 		<delete dir="work"/>
 	</target>
 
-	<macrodef name="stdparams">
+	<macrodef name="xsl">
+		<attribute name="style"/>
+		<element name="inout" implicit="yes"/>
 		<sequential>
-			<param name="runBy" expression="${myID}"/>
-			<param name="site" expression="${site}"/>
-			<param name="metadataPath" expression="${basedir}/ise2/metadata"/>
-			<param name="personographyPath" expression="${personography}"/>
-			<param name="orgographyPath" expression="${orgography}"/>
-			<param name="taxonomiesPath" expression="${taxonomies}"/>
+			<xslt style="@{style}" destdir="ise3">
+				<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+				<inout/>
+				<param name="runBy" expression="${myID}"/>
+				<param name="site" expression="${site}"/>
+				<param name="metadataPath" expression="${basedir}/ise2/metadata"/>
+				<param name="personographyPath" expression="${personography}"/>
+				<param name="orgographyPath" expression="${orgography}"/>
+				<param name="taxonomiesPath" expression="${taxonomies}"/>
+			</xslt>
 		</sequential>
 	</macrodef>
 
