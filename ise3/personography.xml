@@ -33,11 +33,32 @@
 		<body>
 			<listPerson>
 				<!-- extant -->
+				<person xml:id="RASM1" n="erasmussen">
+					<persName>
+						<reg>Eric Rasmussen</reg>
+						<forename>Eric</forename>
+						<surname>Rasmussen</surname>
+					</persName>
+				</person>
 				<person xml:id="JENS1" n="jenstad">
 					<persName>
 							<reg>Janelle Jenstad</reg>
 							<forename>Janelle</forename>
 							<surname>Jenstad</surname>
+					</persName>
+				</person>
+				<person xml:id="BEST1" n="mbest">
+					<persName>
+						<reg>Michael Best</reg>
+						<forename>Michael</forename>
+						<surname>Best</surname>
+					</persName>
+				</person>
+				<person xml:id="MARD1" n="jmardock">
+					<persName>
+						<reg>James D. Mardock</reg>
+						<forename>James</forename>
+						<surname>Mardock</surname>
 					</persName>
 				</person>
 				<person xml:id="TERP1" n="mtaexr">
