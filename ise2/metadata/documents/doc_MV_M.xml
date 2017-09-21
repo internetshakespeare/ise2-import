@@ -1,0 +1,35 @@
+<?xml-model href="../../schema/text/document.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="../../schema/text/document.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<document xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text" xml:id="doc_MV_M">
+    <head>
+        <!-- commonMeta -->
+        <titles>
+            <title>Merchant of Venice</title>
+            <witness>Modern</witness>
+            <mobileTitle>MV: M</mobileTitle>
+        </titles>
+        <events>
+        </events>
+        <resp>
+            
+            <agent role="editor" user="jenstad"/>
+            <agent role="editor" user="swittek"/>
+            <agent role="owner" user="jenstad"/>
+            <agent role="owner" user="swittek"/>
+        </resp>
+        <externalIdentifiers>
+            <id type="MLA" user="ise">MV_M</id>
+            <id type="ISBN">978-1-55058-465-3</id>
+        </externalIdentifiers>
+        <references>
+            <work ref="work_mv" rel="identity"/>
+            <edition rel="preferred" ref="edition_MV"/></references>
+        <description>A modern-spelling edition of Merchant of Venice, using the ISE transcription of the Quarto text as prepared by Janelle Jenstad as the copy text.</description>
+        <rights license="ISE-Text:1"/>
+        <!-- document-specific -->
+        <documentClass>dramaticWork</documentClass>
+        <editProgress>With Editor</editProgress>
+        <peerReviewed>false</peerReviewed>
+        <isFormatOf>The Quarto text as edited by Janelle Jenstad and Stephen Wittek for the Internet Shakespeare Editions.</isFormatOf>
+        <editorialPrinciple>This text has been edited following the general guidelines of the Internet Shakespeare Editions.</editorialPrinciple>
+    </head>
+</document>

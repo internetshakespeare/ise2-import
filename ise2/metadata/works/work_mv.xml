@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-model href="../../schema/text/work.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?>
+<?xml-model href="../../schema/text/work.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<work xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text"
+      xml:id="work_mv">
+    <head><!-- We should not make assertions about authorship, collaboration, or date of creation in Work metadata. Fix in ISE3.-->
+        <titles>
+            <title>The Merchant of Venice</title>
+            <mobileTitle>MV</mobileTitle>
+        </titles>
+        <resp>
+            <agent role="author" user="shakespeare"/>
+        </resp>
+        <events>
+            <!-- <subjectCreated when="1596" notBefore="1595" notAfter="1597"/> -->
+            <!--<subjectPublished when="1600" earliest="true"/>-->
+        </events>
+        <workClass>play</workClass>
+        <isPrimary>true</isPrimary>
+      <references>
+         <publication rel="preferred" ref="pub_F1"/>
+      </references>
+   </head>
+</work>

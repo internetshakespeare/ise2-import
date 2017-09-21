@@ -1,0 +1,47 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" version="5.0" xml:lang="en" xml:id="personography">
+	<teiHeader>
+		<fileDesc>
+			<titleStmt>
+				<title>Database of organisations</title>
+				<respStmt>
+					<resp ref="resp:edt_mrk">Encoder</resp>
+					<name ref="pers:TERP1">Maxwell Terpstra</name>
+				</respStmt>
+			</titleStmt>
+			<publicationStmt copyOf="global:publicationStmt"/>
+			<sourceDesc>
+				<p>Born digital.</p>
+			</sourceDesc>
+		</fileDesc>
+		<profileDesc>
+			<textClass>
+				<catRef scheme="idt:iseDocumentTypes" target="idt:idtBornDigital"/>
+				<catRef scheme="idt:iseDocumentTypes" target="idt:idtDatabase"/>
+			</textClass>
+		</profileDesc>
+		<encodingDesc>
+			<listPrefixDef copyOf="global:listPrefixDef"/>
+			<projectDesc copyOf="global:projectDesc"/>
+			<editorialDecl copyOf="global:editorialDecl_documentation"/>
+		</encodingDesc>
+		<revisionDesc>
+			<change who="pers:TERP1" when="2017-09-21">Created central database file.</change>
+		</revisionDesc>
+	</teiHeader>
+
+	<text>
+		<body>
+			<listOrg>
+				<org xml:id="ISE-1" n="ise">
+					<orgName>Internet Shakespeare Editions</orgName>
+				</org>
+				<org xml:id="DRE-1" n="dre">
+					<orgName>Digital Renaissance Editions</orgName>
+				</org>
+				<org xml:id="QME-1" n="qme">
+					<orgName>Queen's Men Editions</orgName>
+				</org>
+			</listOrg>
+		</body>
+	</text>
+</TEI>

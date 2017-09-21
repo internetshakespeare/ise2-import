@@ -1,0 +1,77 @@
+<project name="schematron" basedir=".">
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+    <dirname property="schematron.basedir" file="${ant.file.schematron}"/>
+
+    <macrodef name="schematron">
+        <attribute name="schema"/>
+        <attribute name="phase" default="#ALL"/>
+        <attribute name="file" default=""/>
+        <attribute name="svrldir" default="svrl"/>
+        <attribute name="failonerror" default="yes"/>
+        <element name="check-these" implicit="yes" optional="yes"/>
+        <sequential>
+            <local name="schema.base"/>
+            <basename property="schema.base" file="@{schema}" suffix="sch"/>
+            <if>
+                <uptodate srcfile="@{schema}" targetfile="@{schema}:{@phase}.xsl"/>
+                <else>
+                    <echo message="Compiling @{schema} (phase @{phase}) to XSL"/>
+                    <!-- expand includes -->
+                    <xslt force="yes"
+                        in="@{schema}"
+                        out="${java.io.tmpdir}/expanded.sch"
+                        style="${schematron.basedir}/iso_dsdl_include.xsl">
+                        <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+                    </xslt>
+                    <!-- expand abstract patterns -->
+                    <xslt force="yes"
+                        in="${java.io.tmpdir}/expanded.sch"
+                        out="${java.io.tmpdir}/concrete.sch"
+                        style="${schematron.basedir}/iso_abstract_expand.xsl">
+                        <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+                    </xslt>
+                    <!-- compile for combined svrl/message output -->
+                    <xslt force="yes"
+                        in="${java.io.tmpdir}/concrete.sch"
+                        out="@{schema}:@{phase}.xsl"
+                        style="${schematron.basedir}/iso_svrl_with_message.xsl">
+                        <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+                        <param name="phase" expression="@{phase}"/>
+                    </xslt>
+                </else>
+            </if>
+            <!-- apply -->
+            <echo message="Validating using schematron @{schema}, phase @{phase}"/>
+            <xslt
+                style="@{schema}:@{phase}.xsl"
+                destdir="@{svrldir}/${schema.base}:@{phase}"
+                useImplicitFileset="no"
+                force="yes"
+            >
+                <factory name="net.sf.saxon.TransformerFactoryImpl"/>
+                <union>
+                    <file file="@{file}"/>
+                    <check-these/>
+                </union>
+                <mapper type="identity"/>
+            </xslt>
+            <if>
+                <and>
+                    <istrue value="@{failonerror}"/>
+                    <resourcecount when="greater" count="0">
+                        <fileset dir="@{svrldir}">
+                            <or>
+                                <contains text="&lt;svrl:failed-assert"/>
+                                <contains text="&lt;svrl:successful-report"/>
+                            </or>
+                        </fileset>
+                    </resourcecount>
+                </and>
+                <then>
+                    <fail message="Schematron errors reported"/>
+                </then>
+            </if>
+        </sequential>
+    </macrodef>
+
+</project>

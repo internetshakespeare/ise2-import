@@ -1,0 +1,38 @@
+<?xml-model href="../../schema/text/edition.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="../../schema/text/edition.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<edition xml:id="edition_MV"
+	xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text"
+	xmlns:link="http://internetshakespeare.uvic.ca/#internal-linking"
+	xmlns:h="http://www.w3.org/1999/xhtml">
+    <head>
+        <titles>
+            <title>The Merchant of Venice</title>
+            <mobileTitle>MV</mobileTitle>
+        </titles>
+        <resp>
+            
+            <agent role="editor" user="jenstad"/>
+            <agent role="editor" user="swittek"/>
+            <agent role="editor" class="general textual" user="erasmussen"/>
+            <agent role="editor" class="general textual" user="jmardock"/>
+            <agent role="editor" class="coordinating" user="mbest"/>
+            <agent role="editor" class="associate coordinating" user="jenstad"/>
+            <agent role="owner" user="ise"/>
+        </resp>
+        <events>
+        </events>
+    <references/></head>
+    <content>
+        <credits>
+            <agent role="author" user="shakespeare"/>
+            <agent role="editor" user="jenstad"/>
+            <agent role="editor" user="swittek"></agent>
+        </credits>
+        <introduction/>
+        <characters/>
+        <main>
+            <document ref="doc_MV_F1"/>
+            <document ref="doc_MV_Q1"/>
+        </main>
+        <supplements/>
+    </content>
+</edition>

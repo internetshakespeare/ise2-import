@@ -1,0 +1,31 @@
+<?xml-model href="../../schema/text/document.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"?><?xml-model href="../../schema/text/document.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?><document xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text" xml:id="doc_MV_F1">
+  <head>
+    <!-- commonMeta -->
+      <titles>
+         <title>The Merchant of Venice</title>
+         <witness>Folio 1, 1623</witness>
+         <mobileTitle>MV: F1</mobileTitle>
+      </titles>
+      <events>
+      </events>
+      <resp>
+         
+         <agent role="editor" user="jenstad"/>
+         <agent role="owner" user="jenstad"/>
+      </resp>
+      <externalIdentifiers>
+         <id type="MLA" user="ise">MV_F1</id>
+      </externalIdentifiers>
+     <rights license="ISE-Text:1"/>
+      <references>
+         <work ref="work_mv" rel="identity"/>
+      <edition rel="preferred" ref="edition_MV"/></references>
+      <description>An old-spelling transcription of The Merchant of Venice, Folio version, 1623.</description>
+      <!-- document-specific -->
+      <documentClass>dramaticWork</documentClass>
+      <editProgress>With Editor</editProgress>
+      <peerReviewed>false</peerReviewed>
+      <isFormatOf>Hinman, Charlton, ed. Norton Facsimile of the First Folio. New York: W.W. Norton, 1968.</isFormatOf>
+      <editorialPrinciple>The transcripts presented here follow the Folio as exactly as an electronic version permits; spelling follows the original, with no attempt to correct errors; word spacing is normalized; and modern forms are substituted for letters and ligatures that have no modern equivalent in current browsers (for example, the long 's').</editorialPrinciple>
+  </head>
+</document>

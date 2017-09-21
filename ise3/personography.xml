@@ -1,0 +1,69 @@
+<TEI xmlns="http://www.tei-c.org/ns/1.0" version="5.0" xml:lang="en" xml:id="personography">
+	<teiHeader>
+		<fileDesc>
+			<titleStmt>
+				<title>Database of contributors</title>
+				<respStmt>
+					<resp ref="resp:edt_mrk">Encoder</resp>
+					<name ref="pers:TERP1">Maxwell Terpstra</name>
+				</respStmt>
+			</titleStmt>
+			<publicationStmt copyOf="global:publicationStmt"/>
+			<sourceDesc>
+				<p>Born digital.</p>
+			</sourceDesc>
+		</fileDesc>
+		<profileDesc>
+			<textClass>
+				<catRef scheme="idt:iseDocumentTypes" target="idt:idtBornDigital"/>
+				<catRef scheme="idt:iseDocumentTypes" target="idt:idtDatabase"/>
+			</textClass>
+		</profileDesc>
+		<encodingDesc>
+			<listPrefixDef copyOf="global:listPrefixDef"/>
+			<projectDesc copyOf="global:projectDesc"/>
+			<editorialDecl copyOf="global:editorialDecl_documentation"/>
+		</encodingDesc>
+		<revisionDesc>
+			<change who="pers:TERP1" when="2017-09-21">Created central database file.</change>
+		</revisionDesc>
+	</teiHeader>
+
+	<text>
+		<body>
+			<listPerson>
+				<!-- extant -->
+				<person xml:id="JENS1" n="jenstad">
+					<persName>
+							<reg>Janelle Jenstad</reg>
+							<forename>Janelle</forename>
+							<surname>Jenstad</surname>
+					</persName>
+				</person>
+				<person xml:id="TERP1" n="mtaexr">
+					<persName>
+						<reg>Maxwell Terpstra</reg>
+						<forename>Maxwell</forename>
+						<surname>Terpstra</surname>
+					</persName>
+				</person>
+				<person xml:id="WITT1" n="swittek">
+					<persName>
+						<reg>Stephen Wittek</reg>
+						<forename>Stephen</forename>
+						<surname>Wittek</surname>
+					</persName>
+				</person>
+
+				<!-- historical -->
+				<person xml:id="SHAK1" n="shakespeare">
+					<persName>
+						<reg>William Shakespeare</reg>
+						<forename>William</forename>
+						<surname>Shakespeare</surname>
+					</persName>
+				</person>
+			</listPerson>
+		</body>
+	</text>
+</TEI>

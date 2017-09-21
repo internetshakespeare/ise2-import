@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project basedir="." name="ise2-import" default="all">
+	<description>ISE2->ISE3 conversion scripts</description>
+
+	<import file="lib/schematron/ant-macro.xml"/>
+	<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
+	<taskdef
+		name="jing"
+		classname="com.thaiopensource.relaxng.util.JingTask"
+		classpath="lib/jing.jar"/>
+
+	<property name="myID" value="${user.name}"/>
+	<property name="site" value="ise"/>
+	<property name="taxonomies" value="${basedir}/ise3/taxonomies.xml"/>
+	<property name="orgography" value="${basedir}/ise3/orgography.xml"/>
+	<property name="personography" value="${basedir}/ise3/personography.xml"/>
+
+	<fileset id="src.iml.os">
+		<include name="ise2/documents/iml/doc_*.txt"/>
+		<exclude name="ise2/documents/iml/doc_*M.txt"/>
+		<exclude name="ise2/documents/iml/doc_*Me.txt"/>
+	</fileset>
+
+	<fileset id="src.iml.modern">
+		<include name="ise2/documents/iml/doc_*M.txt"/>
+		<include name="ise2/documents/iml/doc_*Me.txt"/>
+	</fileset>
+
+	<fileset id="src.xwiki">
+		<include name="ise2/documents/xwiki/*.xml"/>
+	</fileset>
+
+	<fileset id="src.apparatus.ann">
+		<include name="ise2/annotations/*_annotation.xml"/>
+		<include name="ise2/collations/*_collation.xml"/>
+	</fileset>
+
+	<fileset id="src.facsimile.copy">
+		<include name="ise2/metadata/copies/copy_*.xml"/>
+	</fileset>
+
+	<fileset id="src.edition">
+		<include name="ise2/metadata/editions/edition_*.xml"/>
+	</fileset>
+
+	<target name="iml-os" description="convert old-spelling IML texts"/>
+	<target name="iml-modern" description="convert modern IML texts"/>
+	<target name="iml" description="convert all IML texts"/>
+	<target name="xwiki-src" description="fetch XWiki texts from the isebeta XWiki server"/>
+	<target name="xwiki" description="convert XWiki texts"/>
+	<target name="apparatus" description="convert annotations and collations"/>
+	<target name="facsimile" description="convert facsimiles"/>
+	<target name="edition" description="convert editions"/>
+
+	<target
+		name="all"
+		description="convert all available data"
+		depends="iml, xwiki, apparatus, facsimile, edition"/>
+
+	<target name="clean">
+		<delete dir="ise3/facsimiles"/>
+		<delete dir="ise3/texts"/>
+		<delete dir="work"/>
+	</target>
+
+	<macrodef name="stdparams">
+		<sequential>
+			<param name="runBy" expression="${myID}"/>
+			<param name="site" expression="${site}"/>
+			<param name="metadataPath" expression="${basedir}/ise2/metadata"/>
+			<param name="personographyPath" expression="${personography}"/>
+			<param name="orgographyPath" expression="${orgography}"/>
+			<param name="taxonomiesPath" expression="${taxonomies}"/>
+		</sequential>
+	</macrodef>
+
+</project>
