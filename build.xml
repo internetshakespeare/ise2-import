@@ -50,7 +50,17 @@
 	<target name="xwiki" description="convert XWiki texts"/>
 	<target name="apparatus" description="convert annotations and collations"/>
 	<target name="facsimile" description="convert facsimiles"/>
-	<target name="edition" description="convert editions"/>
+
+	<target name="edition" description="convert editions">
+		<xsl style="xsl/edition.xsl">
+			<fileset refid="src.edition"/>
+			<mapper
+				type="regexp"
+				from="^(.*)/edition_(.*)\.xml$$"
+				to="texts/\2/supp/ise\2_edition.xml"
+			/>
+		</xsl>
+	</target>
 
 	<target
 		name="all"
