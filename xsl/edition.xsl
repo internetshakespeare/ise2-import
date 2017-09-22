@@ -28,7 +28,6 @@
 	<xsl:variable name="today" select="format-date(current-date(), '[Y0001]-[M01]-[D01]')"/>
 	<xsl:variable name="workId" select="concat('ise', substring-after(//edition/@xml:id, 'edition_'))"/>
 	<xsl:variable name="docId" select="concat($workId, '_edition')"/>
-	<xsl:variable name="siteOrgRef" select="concat('org:', util:pad(upper-case($site), 4, '-'), '1')"/>
 
 	<xsl:template match="/">
 		<xsl:processing-instruction name="xml-model" expand-text="yes">href="../sch/${site}.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"</xsl:processing-instruction>

@@ -49,13 +49,18 @@
 	<target name="xwiki-src" description="fetch XWiki texts from the isebeta XWiki server"/>
 	<target name="xwiki" description="convert XWiki texts"/>
 	<target name="apparatus" description="convert annotations and collations"/>
-	<target name="facsimile" description="convert facsimiles"/>
 
-	<target name="edition" description="convert editions">
+	<target name="facsimiles" description="convert facsimiles">
+		<xsl style="xsl/facsimile.xsl">
+			<fileset refid="src.facsimile.copy"/>
+			<regexpmapper from="^.*/(copy_[^/]+\.xml)$$" to="facsimiles/\1"/>
+		</xsl>
+	</target>
+
+	<target name="editions" description="convert editions">
 		<xsl style="xsl/edition.xsl">
 			<fileset refid="src.edition"/>
-			<mapper
-				type="regexp"
+			<regexpmapper
 				from="^(.*)/edition_(.*)\.xml$$"
 				to="texts/\2/supp/ise\2_edition.xml"
 			/>
@@ -65,7 +70,7 @@
 	<target
 		name="all"
 		description="convert all available data"
-		depends="iml, xwiki, apparatus, facsimile, edition"/>
+		depends="iml, xwiki, apparatus, facsimiles, editions"/>
 
 	<target name="clean">
 		<delete dir="ise3/facsimiles"/>
