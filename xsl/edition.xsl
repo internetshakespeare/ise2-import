@@ -30,10 +30,8 @@
 	<xsl:variable name="docId" select="concat($workId, '_edition')"/>
 
 	<xsl:template match="/">
-		<xsl:processing-instruction name="xml-model" expand-text="yes">href="../sch/${site}.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0"</xsl:processing-instruction>
-		<xsl:text>&#x0a;</xsl:text>
-		<xsl:processing-instruction name="xml-model" expand-text="yes">href="../sch/${site}.sch" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"</xsl:processing-instruction>
-		<xsl:text>&#x0a;</xsl:text>
+		<xsl:sequence select="util:xml-model(concat('../sch/', $site, '.rng'))"/>
+		<xsl:sequence select="util:xml-model(concat('../sch/', $site, '.sch'))"/>
 		<TEI version="5.0">
 			<xsl:attribute name="xml:id" select="$docId"/>
 			<teiHeader>
@@ -137,7 +135,7 @@
 			<xsl:variable name="respStmt" select="meta:respStmt-for-agent(.)"/>
 			<xsl:value-of select="$respStmt/tei:resp"/>
 			<xsl:text>: </xsl:text>
-			<xsl:copy-of select="$respStmt/tei:name"/>
+			<xsl:copy-of select="$respStmt/tei:persName"/>
 		</byline>
 	</xsl:template>
 
@@ -240,13 +238,14 @@
 					<xsl:sequence select="util:comma-list(
 						for $a in $authors/@user return util:pers-ref($a)
 					)"/>
-					<xsl:text>.</xsl:text>
 				</xsl:if>
 				<xsl:if test="$editors[not(@user = $editionEditors/@user)]">
+					<xsl:if test="$authors[not(@user = $editionAuthors/@user)]">.</xsl:if>
 					<xsl:text> Edited by </xsl:text>
 					<xsl:sequence select="util:comma-list(
 						for $e in $editors/@user return util:pers-ref($e)
 					)"/>
+					<xsl:text>.</xsl:text>
 				</xsl:if>
 			</xsl:if>
 		</item>
