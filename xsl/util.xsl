@@ -49,23 +49,18 @@
 
 	<xsl:function name="util:comma-list" as="item()*">
 		<xsl:param name="items"/>
-		<!-- from edition.xsl
-							<xsl:for-each select="$authors">
-						<xsl:variable name="thisPos" select="position()"/>
-						<xsl:copy-of select="hcmc:getName(.)"/>
-						<xsl:choose>
-							<xsl:when test="$thisPos lt last()-1">
-								<xsl:text>, </xsl:text>
-							</xsl:when>
-							<xsl:when test="$thisPos = last()-1">
-								<xsl:if test="not(last()=2)">,</xsl:if><xsl:text> and </xsl:text>
-							</xsl:when>
-							<xsl:when test="$thisPos = last()">
-								<xsl:text>.</xsl:text>
-							</xsl:when>
-						</xsl:choose>
-					</xsl:for-each>
-		-->
+		<xsl:for-each select="$items">
+			<xsl:copy-of select="."/>
+			<xsl:choose>
+				<xsl:when test="position() lt last() - 1">
+					<xsl:text>, </xsl:text>
+				</xsl:when>
+				<xsl:when test="position() eq last() - 1">
+					<xsl:if test="not(last() = 2)">, </xsl:if>
+					<xsl:text>and </xsl:text>
+				</xsl:when>
+			</xsl:choose>
+		</xsl:for-each>
 	</xsl:function>
 
 	<xsl:function name="util:pers-ref" as="element(tei:persName)">
