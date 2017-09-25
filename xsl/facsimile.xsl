@@ -107,7 +107,11 @@
 				<editorialDecl copyOf="global:editorialDecl_facsimile"/>
 			</encodingDesc>
 			<revisionDesc>
-				<change when="{current-date()}" who="pers:TERP1">Generated from ISE2 data.</change>
+				<change who="{$siteOrgRef}" when="{current-date()}">
+					<xsl:text>Converted from ISE2 XML via </xsl:text>
+					<ref target="https://github.com/internetshakespeare/ise2-import">import script</ref>
+					<xsl:text>.</xsl:text>
+				</change>
 			</revisionDesc>
 		</teiHeader>
 	</xsl:template>

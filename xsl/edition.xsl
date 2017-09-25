@@ -25,7 +25,6 @@
 
 	<xsl:output indent="yes"/>
 
-	<xsl:variable name="today" select="format-date(current-date(), '[Y0001]-[M01]-[D01]')"/>
 	<xsl:variable name="workId" select="concat('ise', substring-after(//edition/@xml:id, 'edition_'))"/>
 	<xsl:variable name="docId" select="concat($workId, '_edition')"/>
 
@@ -66,8 +65,8 @@
 					<editorialDecl copyOf="global:editorialDecl_general"/>
 				</encodingDesc>
 				<revisionDesc status="converted">
-					<change who="{$siteOrgRef}" when="{$today}">
-						<xsl:text>Converted from ISE2 XML via</xsl:text>
+					<change who="{$siteOrgRef}" when="{current-date()}">
+						<xsl:text>Converted from ISE2 XML via </xsl:text>
 						<ref target="https://github.com/internetshakespeare/ise2-import">import script</ref>
 						<xsl:text>.</xsl:text>
 					</change>
