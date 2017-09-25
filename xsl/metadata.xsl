@@ -11,6 +11,7 @@
 	xmlns:meta="http://ise3.uvic.ca/ns/ise2-import/metadata"
 	xmlns:tei="http://www.tei-c.org/ns/1.0"
 	xmlns:util="http://ise3.uvic.ca/ns/ise2-import/util"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	exclude-result-prefixes="#all"
 >
@@ -123,6 +124,31 @@
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
+
+	<xsl:function name="meta:type-descriptor" as="xs:string?">
+		<xsl:param name="docRef"/>
+		<xsl:variable name="doc" select="meta:document($docRef)"/>
+		<xsl:variable name="witness" select="$doc//m:witness"/>
+		<xsl:choose>
+			<xsl:when test="matches($witness, '(^|\s)modern(,|\s|$)', 'i')">
+				<xsl:choose>
+					<xsl:when test="matches($witness, '(^|\s)extended(,|\s|$)', 'i')">Extended modern</xsl:when>
+					<xsl:when test="matches($witness, '(^|\s)conflated(,|\s|$)', 'i')">Conflated modern</xsl:when>
+					<xsl:when test="matches($witness, '(^|\s)editor(''s)?(,|\s|$)', 'i')">Editor's choice</xsl:when>
+					<xsl:otherwise>Modern</xsl:otherwise>
+				</xsl:choose>
+			</xsl:when>
+			<xsl:when test="matches($witness, '(^|\s)selections?(,|\s|$)', 'i')">Selection</xsl:when>
+			<xsl:when test="matches($witness, '(^|\s)(folio|quarto|octavo)(,|\s|$)', 'i')">Old-spelling transcription</xsl:when>
+			<xsl:when test="matches($doc/*/@xml:id, 'Me$')">Extended modern</xsl:when>
+			<xsl:when test="matches($doc/*/@xml:id, 'CM$')">Conflated modern</xsl:when>
+			<xsl:when test="matches($doc/*/@xml:id, 'EM$')">Editor's choice</xsl:when>
+			<xsl:when test="matches($doc/*/@xml:id, 'M$')">Modern</xsl:when>
+			<xsl:when test="matches($doc/*/@xml:id, '_(F|Q|O)\d?$')">Old-spelling transcription</xsl:when>
+			<xsl:when test="matches($doc/*/@xml:id, '_MS\d?$')">Manuscript transcription</xsl:when>
+			<xsl:otherwise/>
+		</xsl:choose>
+	</xsl:function>
 
 	<xsl:function visibility="private" name="meta:meta-doc" as="document-node()">
 		<xsl:param name="type"/>

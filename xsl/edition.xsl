@@ -192,16 +192,17 @@
 		<xsl:variable name="editionAuthors" select="//credits/agent[@role='author']"/>
 		<xsl:variable name="editionEditors" select="//credits/agent[@role='editor']"/>
 		<xsl:variable name="documentMeta" select="meta:document(@ref)"/>
+		<xsl:variable name="edTitle" select="normalize-space(//head//title)"/>
+		<xsl:variable name="title" select="normalize-space($documentMeta//titles/title)"/>
+		<xsl:variable name="witness" select="normalize-space($documentMeta//titles/witness)"/>
+		<xsl:variable name="type" select="meta:type-descriptor(@ref)"/>
 		<item>
 			<ref target="{concat('doc:', $site, substring-after(@ref, 'doc_'))}">
+				<!-- note: no titles currently using markup, so string manipulation is sufficient -->
 				<xsl:choose>
-					<xsl:when test="ancestor::main">
-						<!-- note: no titles currently using markup, so string manipulation is sufficient -->
-						<xsl:variable name="edTitle" select="normalize-space(//head//title)"/>
-						<xsl:variable name="title" select="normalize-space($documentMeta//titles/title)"/>
-						<xsl:variable name="witness" select="normalize-space($documentMeta//titles/witness)"/>
+					<xsl:when test="ancestor::introduction">
+						<!-- intro titles are often prefixed with the edition name -->
 						<title>
-							<!-- trim edition name and ':' from front -->
 							<xsl:value-of select="
 								if (starts-with($title, $edTitle))
 								then replace(
@@ -211,12 +212,31 @@
 								)
 								else $title
 							"/>
-							<!-- append witness -->
 							<xsl:if test="$witness != ''" expand-text="yes"> ({$witness})</xsl:if>
 						</title>
 					</xsl:when>
+					<xsl:when test="ancestor::main">
+						<xsl:choose>
+							<xsl:when test="ancestor::g">
+								<!-- groups always show the title and witness in the header -->
+								<xsl:value-of select="$type"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<!-- don't strip title from ungrouped main section docs -->
+								<title>
+									<xsl:value-of select="$title"/>
+									<xsl:if test="$witness != ''" expand-text="yes">, {$witness}</xsl:if>
+								</title>
+								<xsl:if test="not(matches($type, 'modern', 'i'))" expand-text="yes"> ({$type})</xsl:if>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:when>
 					<xsl:otherwise>
-						<xsl:sequence select="meta:title($documentMeta//titles)"/>
+						<!-- supps rarely include the edition name, so don't strip it -->
+						<title>
+							<xsl:sequence select="$title"/>
+							<xsl:if test="$witness != ''" expand-text="yes"> ({$witness})</xsl:if>
+						</title>
 					</xsl:otherwise>
 				</xsl:choose>
 			</ref>
