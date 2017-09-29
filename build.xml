@@ -51,14 +51,14 @@
 	<target name="apparatus" description="convert annotations and collations"/>
 
 	<target name="facsimiles" description="convert facsimiles">
-		<xsl style="xsl/facsimile.xsl">
+		<xsl style="xsl/facsimile.xsl" destdir="ise3">
 			<fileset refid="src.facsimile.copy"/>
 			<regexpmapper from="^.*/(copy_[^/]+\.xml)$$" to="facsimiles/\1"/>
 		</xsl>
 	</target>
 
 	<target name="editions" description="convert editions">
-		<xsl style="xsl/edition.xsl">
+		<xsl style="xsl/edition.xsl" destdir="ise3">
 			<fileset refid="src.edition"/>
 			<regexpmapper
 				from="^(.*)/edition_(.*)\.xml$$"
@@ -80,9 +80,10 @@
 
 	<macrodef name="xsl">
 		<attribute name="style"/>
+		<attribute name="destdir"/>
 		<element name="inout" implicit="yes"/>
 		<sequential>
-			<xslt style="@{style}" destdir="ise3">
+			<xslt style="@{style}" destdir="@{destdir}">
 				<factory name="net.sf.saxon.TransformerFactoryImpl"/>
 				<inout/>
 				<param name="runBy" expression="${myID}"/>
