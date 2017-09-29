@@ -51,6 +51,10 @@
 	<target name="apparatus" description="convert annotations and collations"/>
 
 	<target name="facsimiles" description="convert facsimiles">
+		<dependset>
+			<srcfilelist dir="xsl" files="facsimile.xsl, global.xsl, util.xsl, metadata.xsl, ilink.xsl"/>
+			<targetfileset dir="ise3/facsimiles" includes="*.xml"/>
+		</dependset>
 		<xsl style="xsl/facsimile.xsl" destdir="ise3">
 			<fileset refid="src.facsimile.copy"/>
 			<regexpmapper from="^.*/(copy_[^/]+\.xml)$$" to="facsimiles/\1"/>
@@ -58,6 +62,10 @@
 	</target>
 
 	<target name="editions" description="convert editions">
+		<dependset>
+			<srcfilelist dir="xsl" files="edition.xsl, global.xsl, util.xsl, metadata.xsl, ilink.xsl"/>
+			<targetfileset dir="ise3/texts" includes="*/supp/*_edition.xml"/>
+		</dependset>
 		<xsl style="xsl/edition.xsl" destdir="ise3">
 			<fileset refid="src.edition"/>
 			<regexpmapper
