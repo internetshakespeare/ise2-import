@@ -9,6 +9,9 @@
 		classname="com.thaiopensource.relaxng.util.JingTask"
 		classpath="lib/jing.jar"/>
 
+<!--#########################################################################-->
+<!--## Configuration                                                       ##-->
+
 	<property name="myID" value="${user.name}"/>
 	<property name="site" value="ise"/>
 	<property name="taxonomies" value="${basedir}/ise3/taxonomies.xml"/>
@@ -43,11 +46,34 @@
 		<include name="metadata/editions/edition_*.xml"/>
 	</fileset>
 
-	<target name="iml-os" description="convert old-spelling IML texts"/>
-	<target name="iml-modern" description="convert modern IML texts"/>
-	<target name="iml" description="convert all IML texts"/>
+<!--#########################################################################-->
+<!--## Conversion tasks                                                    ##-->
+
+	<target name="compile">
+		<mkdir dir="classes"/>
+		<javac srcdir="java" destdir="classes" includeantruntime="false">
+			<classpath>
+				<pathelement location="lib/isetools.jar"/>
+			</classpath>
+		</javac>
+	</target>
+
+	<target name="iml-os" description="convert old-spelling IML texts" depends="compile">
+		<prepareiml filesRef="src.iml.os" to="work/os"/>
+		<!-- transform to TEI (xmlToTei, xmlToTeiSecondPass) -->
+	</target>
+
+	<target name="iml-modern" description="convert modern IML texts" depends="compile">
+		<prepareiml filesRef="src.iml.modern" to="work/modern"/>
+		<!-- transform to TEI -->
+	</target>
+
+	<target name="iml" description="convert all IML texts" depends="iml-os, iml-modern"/>
+
 	<target name="xwiki-src" description="fetch XWiki texts from the isebeta XWiki server"/>
+
 	<target name="xwiki" description="convert XWiki texts"/>
+
 	<target name="apparatus" description="convert annotations and collations"/>
 
 	<target name="facsimiles" description="convert facsimiles">
@@ -75,6 +101,9 @@
 		</xsl>
 	</target>
 
+<!--#########################################################################-->
+<!--## Standard targets                                                    ##-->
+
 	<target
 		name="all"
 		description="convert all available data"
@@ -84,8 +113,13 @@
 		<delete dir="ise3/facsimiles"/>
 		<delete dir="ise3/texts"/>
 		<delete dir="work"/>
+		<delete dir="classes"/>
 	</target>
 
+<!--#########################################################################-->
+<!--## Macros                                                              ##-->
+
+	<!-- shortcut for saxon transform with common input parameters -->
 	<macrodef name="xsl">
 		<attribute name="style"/>
 		<attribute name="destdir"/>
@@ -101,6 +135,144 @@
 				<param name="orgographyPath" expression="${orgography}"/>
 				<param name="taxonomiesPath" expression="${taxonomies}"/>
 			</xslt>
+		</sequential>
+	</macrodef>
+
+	<!-- IML preprocessing (before TEI conversion) -->
+	<property name="rex.anyAttrs"
+		value='((?:\s+[^&gt;\s]+\s*=\s*(?:"[^"]*"|&apos;[^&apos;]*&apos;))*)'/>
+	<macrodef name="prepareiml">
+		<attribute name="filesRef"/>
+		<attribute name="to"/>
+		<sequential>
+			<local name="files"/>
+			<pathconvert property="files" refid="@{filesRef}" pathsep=" "/>
+			<!-- use isetools to validate and expand curly-escapes -->
+			<java classname="ise2import.ValidateAndExpand" failonerror="true">
+				<arg line="-o @{to}/raw ${files}"/>
+				<classpath>
+					<pathelement path="classes"/>
+					<pathelement location="lib/isetools.jar"/>
+				</classpath>
+			</java>
+			<!-- escape unicode characters (osx doesn't handle them well) -->
+			<xslt
+				style="xsl/escape-unicode.xsl"
+				basedir="@{to}/raw"
+				includes="*.txt"
+				destdir="@{to}/escaped"
+				extension=".txt"
+			>
+				<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+			</xslt>
+			<!-- preprocess some tagging known to trip up osx -->
+			<copy todir="@{to}/fixup">
+				<fileset dir="@{to}/escaped" includes="*.txt"/>
+				<flattenmapper/>
+				<filterchain>
+					<tokenfilter>
+						<!-- remove whitespace at beginning and end of tags -->
+						<replaceregex pattern="&lt;\s*" replace="&lt;" flags="g"/>
+						<replaceregex pattern="\s*&gt;" replace="&gt;" flags="g"/>
+						<!-- change several tags to milestones -->
+						<replaceregex
+							pattern="&lt;(PAGE|COL|MODE)${rex.anyAttrs}&gt;"
+							replace="&lt;\1\2/&gt;"
+							flags="gi"/>
+						<replaceregex
+							pattern="&lt;/MODE&gt;"
+							replace='&lt;MODE T="end"/&gt;'
+							flags="gi"/>
+						<replaceregex
+							pattern="&lt;/(PAGE|COL)&gt;"
+							replace=""
+							flags="gi"/>
+						<replaceregex
+							pattern="&lt;(SUB|SUP)&gt;"
+							replace='&lt;VERTAL SWITCH="ON" T="\1"/&gt;'
+							flags="gi"/>
+						<replaceregex
+							pattern="&lt;/(SUB|SUP)&gt;"
+							replace='&lt;VERTAL SWITCH="OFF" T="\1"/&gt;'
+							flags="gi"/>
+						<replaceregex
+							pattern="&lt;(C|RA|J)&gt;"
+							replace='&lt;HORZAL SWITCH="ON" T="\1"/&gt;'
+							flags="gi"/>
+						<replaceregex
+							pattern="&lt;/(C|RA|J)&gt;"
+							replace='&lt;HORZAL SWITCH="OFF" T="\1"/&gt;'
+							flags="gi"/>
+						<replaceregex
+							pattern="&lt;(BLL|I|R)&gt;"
+							replace='&lt;STYLE SWITCH="ON" T="\1"/&gt;'
+							flags="gi"/>
+						<replaceregex
+							pattern="&lt;/(BLL|I|R)&gt;"
+							replace='&lt;STYLE SWITCH="OFF" T="\1"/&gt;'
+							flags="gi"/>
+						<replaceregex
+							pattern="&lt;LS&gt;"
+							replace='&lt;LS SWITCH="ON"/&gt;'
+							flags="gi"/>
+						<replaceregex
+							pattern="&lt;/LS&gt;"
+							replace='&lt;LS SWITCH="OFF"/&gt;'
+							flags="gi"/>
+						<replaceregex
+							pattern="&lt;SC&gt;"
+							replace='&lt;SC SWITCH="ON"/&gt;'
+							flags="gi"/>
+						<replaceregex
+							pattern="&lt;/SC&gt;"
+							replace='&lt;SC SWITCH="OFF"/&gt;'
+							flags="gi"/>
+						<replaceregex
+							pattern='&lt;FONT\s+SIZE\s*=\s*("\s*\d+\s*"|&apos;\s*\d+\s*&apos;)&gt;'
+							replace='&lt;FONT SWITCH="ON" SIZE=\1/&gt;'
+							flags="gi"/>
+						<replaceregex
+							pattern='&lt;/FONT&gt;'
+							replace='&lt;FONT SWITCH="OFF"/&gt;'
+							flags="gi"/>
+						<replaceregex
+							pattern='&lt;INDENT\s+L\s*=\s*("\s*\d+\s*"|&apos;\s*\d+\s*&apos;)&gt;'
+							replace='&lt;INDENT SWITCH="ON" N=\1/&gt;'
+							flags="gi"/>
+						<replaceregex
+							pattern='&lt;/INDENT&gt;'
+							replace='&lt;INDENT SWITCH="OFF"/&gt;'
+							flags="gi"/>
+						<!-- change self-closing tags to explicitly-closed tags -->
+						<replaceregex
+							pattern="&lt;([A-Z0-9]+)(${rex.anyAttrs})\s*/&gt;"
+							replace="&lt;\1\2&gt;&lt;/\1&gt;"
+							flags="gi"/>
+					</tokenfilter>
+					<tokenfilter>
+						<filetokenizer/>
+						<!-- remove whitespace at end of file -->
+						<replaceregex pattern="\s*$$" replace=""/>
+						<!-- insert explicit editor line breaks -->
+						<replaceregex
+							pattern="\s*\n+"
+							replace="&lt;lb ed='this'&gt;&lt;/lb&gt;"
+							flags="g"/>
+					</tokenfilter>
+				</filterchain>
+			</copy>
+			<!-- convert to XML using osx -->
+ 			<mkdir dir="@{to}/osx"/> <!-- redirector fails if dir doesn't exist already -->
+ 			<apply executable="osx" dest="@{to}/osx" timeout="2000" skipemptyfilesets="yes">
+ 				<arg line="-E100"/>
+				<srcFile/>
+				<fileset dir="@{to}/fixup" includes="*.txt"/>
+				<globmapper from="*.txt" to="*.xml"/>
+				<redirector createemptyfiles="no">
+					<outputmapper type="glob" from="*.txt" to="@{to}/osx/*.xml"/>
+					<errormapper type="glob" from="*" to="@{to}/osx/*-errors"/>
+				</redirector>
+			</apply>
 		</sequential>
 	</macrodef>
 
