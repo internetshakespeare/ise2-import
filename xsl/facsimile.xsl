@@ -106,12 +106,8 @@
 				<projectDesc copyOf="global:projectDesc"/>
 				<editorialDecl copyOf="global:editorialDecl_facsimile"/>
 			</encodingDesc>
-			<revisionDesc>
-				<change who="{$siteOrgRef}" when="{current-date()}">
-					<xsl:text>Converted from ISE2 XML via </xsl:text>
-					<ref target="https://github.com/internetshakespeare/ise2-import">import script</ref>
-					<xsl:text>.</xsl:text>
-				</change>
+			<revisionDesc status="converted">
+				<xsl:sequence select="util:conversion-change()"/>
 			</revisionDesc>
 		</teiHeader>
 	</xsl:template>
@@ -312,8 +308,7 @@
 	</xsl:template>
 
 	<xsl:template match="f:workMap" mode="textClass">
-		<xsl:variable name="work" select="util:category-for-work(f:work/@ref)"/>
-		<catRef scheme="idt:{$work/parent::tei:taxonomy/@xml:id}" target="idt:{$work/@xml:id}"/>
+		<xsl:variable name="work" select="util:catRef-for-work(f:work/@ref)"/>
 	</xsl:template>
 
 	<xsl:template match="f:workMap" mode="msContents">

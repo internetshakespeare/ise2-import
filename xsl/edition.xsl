@@ -25,8 +25,8 @@
 
 	<xsl:output indent="yes"/>
 
-	<xsl:variable name="workId" select="concat('ise', substring-after(//edition/@xml:id, 'edition_'))"/>
-	<xsl:variable name="docId" select="concat($workId, '_edition')"/>
+	<xsl:variable name="workId" select="substring-after(//edition/@xml:id, 'edition_')"/>
+	<xsl:variable name="docId" select="concat('ise', $workId, '_edition')"/>
 
 	<xsl:template match="/">
 		<xsl:sequence select="util:xml-model(concat('../sch/', $site, '.rng'))"/>
@@ -54,8 +54,7 @@
 						<!-- FIXME: these need to be site-generic -->
 						<catRef scheme="idt:iseDocumentTypes" target="idt:idtBornDigital"/>
 						<catRef scheme="idt:iseDocumentTypes" target="idt:idtEdition"/>
-						<!-- FIXME: handle apocrypha? -->
-						<catRef scheme="idt:iseWorks" target="idt:{$workId}"/>
+						<xsl:sequence select="util:catRef-for-work($workId)"/>
 						<!-- FIXME: published in Broadview? Peer reviewed? -->
 					</textClass>
 				</profileDesc>
@@ -65,11 +64,7 @@
 					<editorialDecl copyOf="global:editorialDecl_general"/>
 				</encodingDesc>
 				<revisionDesc status="converted">
-					<change who="{$siteOrgRef}" when="{current-date()}">
-						<xsl:text>Converted from ISE2 XML via </xsl:text>
-						<ref target="https://github.com/internetshakespeare/ise2-import">import script</ref>
-						<xsl:text>.</xsl:text>
-					</change>
+					<xsl:sequence select="util:conversion-change()"/>
 					<xsl:apply-templates select="//filePublished"/>
 					<!-- fileCreated is probably wrong, and not particularly relevant -->
 					<!-- subjectCreated and subjectPublished aren't used in editions -->
