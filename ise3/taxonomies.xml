@@ -227,7 +227,7 @@
 				</taxonomy>
 
 				<!-- Document types -->
-				<taxonomy xml:id="iseDocumentTypes" n="docTypes">
+				<taxonomy xml:id="iseDocumentTypes">
 					<gloss>Taxonomy of document types</gloss>
 					<category xml:id="idtBornDigital" n="Born Digital">
 						<catDesc>Not based on a primary source.</catDesc>
@@ -316,6 +316,9 @@
 						<category xml:id="idtFacsimileOctavo">
 							<catDesc>Facsimiles in octavo format.</catDesc>
 						</category>
+						<category xml:id="idtFacsimileManuscript">
+							<catDesc>Facsimile of a hand-written document.</catDesc>
+						</category>
 					</category>
 					<category xml:id="idtEdition">
 						<catDesc>Collection of related documents and resources (an "edition").</catDesc>
@@ -384,7 +387,7 @@
 								page.</gloss>
 						</catDesc>
 					</category>
-					<category xml:id="cph" corresp="marc:cph" n="copyright">
+					<category xml:id="cph" corresp="marc:cph" n="owner">
 						<catDesc>
 							<term>Copyright holder</term>
 							<gloss type="marc">A person or organization to whom copy and legal rights have
@@ -480,7 +483,7 @@
 							<term>Textual Editor</term>
 						</catDesc>
 					</category>
-					<category xml:id="own" corresp="marc:own" n="owner">
+					<category xml:id="own" corresp="marc:own">
 						<catDesc>
 							<term>Owner</term>
 							<gloss type="marc">A person, family, or organization that currently owns an item
@@ -600,6 +603,148 @@
 					<mapping type="standard">ꝛ</mapping>
 					<mapping type="ise2">{r}</mapping>
 					<mapping type="unicode">U+A75A</mapping>
+				</glyph>
+
+				<glyph xml:id="lig_ff">
+					<glyphName>LATIN SMALL LIGATURE FF</glyphName>
+					<mapping type="standard" rend="ligature">ff</mapping>
+					<mapping type="precomposed">ﬀ</mapping>
+					<mapping type="ise2">{ff}</mapping>
+					<mapping type="unicode">U+FB00</mapping>
+				</glyph>
+				<glyph xml:id="lig_fi">
+					<glyphName>LATIN SMALL LIGATURE FI</glyphName>
+					<mapping type="standard" rend="ligature">fi</mapping>
+					<mapping type="precomposed">ﬁ</mapping>
+					<mapping type="ise2">{fi}</mapping>
+					<mapping type="unicode">U+FB01</mapping>
+				</glyph>
+				<glyph xml:id="lig_fl">
+					<glyphName>LATIN SMALL LIGATURE FL</glyphName>
+					<mapping type="standard" rend="ligature">fl</mapping>
+					<mapping type="precomposed">ﬂ</mapping>
+					<mapping type="ise2">{fl}</mapping>
+					<mapping type="unicode">U+FB02</mapping>
+				</glyph>
+				<glyph xml:id="lig_ffi">
+					<glyphName>LATIN SMALL LIGATURE FFI</glyphName>
+					<mapping type="standard" rend="ligature">ffi</mapping>
+					<mapping type="precomposed">ﬃ</mapping>
+					<mapping type="ise2">{ffi}</mapping>
+					<mapping type="unicode">U+FB03</mapping>
+				</glyph>
+				<glyph xml:id="lig_ffl">
+					<glyphName>LATIN SMALL LIGATURE FFL</glyphName>
+					<mapping type="standard" rend="ligature">ffl</mapping>
+					<mapping type="precomposed">ﬄ</mapping>
+					<mapping type="ise2">{ffl}</mapping>
+					<mapping type="unicode">U+FB04</mapping>
+				</glyph>
+				<glyph xml:id="lig_longS_longS_l">
+					<glyphName>LATIN SMALL LIGATURE LONG S LONG S L</glyphName>
+					<mapping type="modern" rend="ligature">ssl</mapping>
+					<mapping type="standard" rend="ligature">ſſl</mapping>
+					<mapping type="ise2">{{s}{s}l}</mapping>
+				</glyph>
+				<glyph xml:id="lig_st">
+					<glyphName>LATIN SMALL LIGATURE ST</glyphName>
+					<mapping type="standard" rend="ligature">st</mapping>
+					<mapping type="precomposed">ﬆ</mapping>
+					<mapping type="ise2">{st}</mapping>
+					<mapping type="unicode">U+FB06</mapping>
+				</glyph>
+				<glyph xml:id="lig_longS_t">
+					<glyphName>LATIN SMALL LIGATURE LONG S T</glyphName>
+					<mapping type="modern" rend="ligature">st</mapping>
+					<mapping type="standard" rend="ligature">ſt</mapping>
+					<mapping type="precomposed">ﬅ</mapping>
+					<mapping type="ise2">{{s}t}</mapping>
+					<mapping type="unicode">U+FB05</mapping>
+				</glyph>
+				<glyph xml:id="lig_lower_ij">
+					<glyphName>LATIN SMALL LIGATURE IJ</glyphName>
+					<mapping type="standard" rend="ligature">ij</mapping>
+					<mapping type="precomposed">ĳ</mapping>
+					<mapping type="ise2">{ij}</mapping>
+					<mapping type="unicode">U+0133</mapping>
+				</glyph>
+				<glyph xml:id="lig_upper_IJ">
+					<glyphName>LATIN CAPITAL LIGATURE IJ</glyphName>
+					<mapping type="standard" rend="ligature">IJ</mapping>
+					<mapping type="precomposed">Ĳ</mapping>
+					<mapping type="ise2">{IJ}</mapping>
+					<mapping type="unicode">U+0132</mapping>
+				</glyph>
+				<glyph xml:id="lig_ct">
+					<glyphName>LATIN SMALL LIGATURE CT</glyphName>
+					<mapping type="standard" rend="ligature">ct</mapping>
+					<mapping type="ise2">{ct}</mapping>
+				</glyph>
+				<glyph xml:id="lig_longS_h">
+					<glyphName>LATIN SMALL LIGATURE LONG S H</glyphName>
+					<mapping type="modern" rend="ligature">sh</mapping>
+					<mapping type="standard" rend="ligature">ſh</mapping>
+					<mapping type="ise2">{{s}h}</mapping>
+				</glyph>
+				<glyph xml:id="lig_longS_longS">
+					<glyphName>LATIN SMALL LIGATURE LONG S LONG S</glyphName>
+					<mapping type="modern" rend="ligature">ss</mapping>
+					<mapping type="standard" rend="ligature">ſſ</mapping>
+					<mapping type="ise2">{{s}{s}}</mapping>
+				</glyph>
+				<glyph xml:id="lig_is">
+					<glyphName>LATIN SMALL LIGATURE IS</glyphName>
+					<mapping type="standard" rend="ligature">is</mapping>
+					<mapping type="ise2">{is}</mapping>
+				</glyph>
+				<glyph xml:id="lig_longS_longS_i">
+					<glyphName>LATIN SMALL LIGATURE LONG S LONG S I</glyphName>
+					<mapping type="modern" rend="ligature">ssi</mapping>
+					<mapping type="standard" rend="ligature">ſſi</mapping>
+					<mapping type="ise2">{{s}{s}i}</mapping>
+				</glyph>
+				<glyph xml:id="lig_as">
+					<glyphName>LATIN SMALL LIGATURE AS</glyphName>
+					<mapping type="standard" rend="ligature">as</mapping>
+					<mapping type="ise2">{as}</mapping>
+				</glyph>
+				<glyph xml:id="lig_longS_i">
+					<glyphName>LATIN SMALL LIGATURE LONG S I</glyphName>
+					<mapping type="modern" rend="ligature">si</mapping>
+					<mapping type="standard" rend="ligature">ſi</mapping>
+					<mapping type="ise2">{{s}i}</mapping>
+				</glyph>
+				<glyph xml:id="lig_us">
+					<glyphName>LATIN SMALL LIGATURE US</glyphName>
+					<mapping type="standard" rend="ligature">us</mapping>
+					<mapping type="ise2">{us}</mapping>
+				</glyph>
+				<glyph xml:id="lig_longS_l">
+					<glyphName>LATIN SMALL LIGATURE LONG S L</glyphName>
+					<mapping type="modern" rend="ligature">sl</mapping>
+					<mapping type="standard" rend="ligature">ſl</mapping>
+					<mapping type="ise2">{{s}l}</mapping>
+				</glyph>
+				<glyph xml:id="lig_ll">
+					<glyphName>LATIN SMALL LIGATURE LL</glyphName>
+					<mapping type="standard" rend="ligature">ll</mapping>
+					<mapping type="ise2">{ll}</mapping>
+				</glyph>
+				<glyph xml:id="lig_fr">
+					<glyphName>LATIN SMALL LIGATURE FR</glyphName>
+					<mapping type="standard" rend="ligature">fr</mapping>
+					<mapping type="ise2">{fr}</mapping>
+				</glyph>
+				<glyph xml:id="lig_longS_p">
+					<glyphName>LATIN SMALL LIGATURE LONG S P</glyphName>
+					<mapping type="modern" rend="ligature">sp</mapping>
+					<mapping type="standard" rend="ligature">ſp</mapping>
+					<mapping type="ise2">{{s}p}</mapping>
+				</glyph>
+				<glyph xml:id="lig_os">
+					<glyphName>LATIN SMALL LIGATURE OS</glyphName>
+					<mapping type="standard" rend="ligature">os</mapping>
+					<mapping type="ise2">{os}</mapping>
 				</glyph>
 			</charDecl>
 
