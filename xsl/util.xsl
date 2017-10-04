@@ -187,7 +187,7 @@
 
 	<xsl:function name="util:category-for-work" as="element(tei:category)">
 		<xsl:param name="ref"/>
-		<xsl:variable name="refSimple" select="replace($ref, 'work_', '')"/>
+		<xsl:variable name="refSimple" select="lower-case(replace($ref, '^work_', ''))"/>
 		<xsl:variable name="workCat" select="
 			$taxonomies//tei:taxonomy[@n = 'works']
 				/tei:category
@@ -199,5 +199,18 @@
 		<xsl:sequence select="$workCat"/>
 	</xsl:function>
 
+	<xsl:function name="util:catRef-for-work" as="element(tei:catRef)">
+		<xsl:param name="ref"/>
+		<xsl:variable name="category" select="util:category-for-work($ref)"/>
+		<catRef scheme="idt:{$category/parent::tei:taxonomy/@xml:id}" target="idt:{$category/@xml:id}"/>
+	</xsl:function>
+
+	<xsl:function name="util:conversion-change" as="element(tei:change)">
+		<change who="{$siteOrgRef}" when="{current-date()}">
+			<xsl:text>Converted from ISE2 XML via </xsl:text>
+			<ref target="https://github.com/internetshakespeare/ise2-import">import script</ref>
+			<xsl:text>.</xsl:text>
+		</change>
+	</xsl:function>
 
 </xsl:stylesheet>

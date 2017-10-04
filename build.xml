@@ -60,12 +60,12 @@
 
 	<target name="iml-os" description="convert old-spelling IML texts" depends="compile">
 		<prepareiml filesRef="src.iml.os" to="work/os"/>
-		<!-- transform to TEI (xmlToTei, xmlToTeiSecondPass) -->
+		<imltotei workdir="work/os" modern="false"/>
 	</target>
 
 	<target name="iml-modern" description="convert modern IML texts" depends="compile">
 		<prepareiml filesRef="src.iml.modern" to="work/modern"/>
-		<!-- transform to TEI -->
+		<imltotei workdir="work/modern" modern="true"/>
 	</target>
 
 	<target name="iml" description="convert all IML texts" depends="iml-os, iml-modern"/>
@@ -276,4 +276,32 @@
 		</sequential>
 	</macrodef>
 
+	<macrodef name="imltotei">
+		<attribute name="workdir"/>
+		<attribute name="modern"/>
+		<sequential>
+			<dependset>
+				<srcfilelist dir="xsl" files="iml-tei-step1.xsl, global.xsl, util.xsl, metadata.xsl"/>
+				<targetfileset dir="@{workdir}/tei-step1"/>
+			</dependset>
+			<xsl style="xsl/iml-tei-step1.xsl" destdir="@{workdir}/tei-step1">
+				<include name="@{workdir}/osx/*.xml"/>
+				<regexpmapper from="doc_(.+)_(.+)\.xml" to="${site}\1_\2.xml"/>
+				<param name="modern" type="BOOLEAN" expression="@{modern}"/>
+			</xsl>
+			<xsl style="xsl/iml-tei-step2.xsl" destdir="@{workdir}/tei-step2">
+				<include name="@{workdir}/tei-step1/*.xml"/>
+				<flattenmapper/>
+			</xsl>
+			<xsl style="xsl/iml-tei-step3.xsl" destdir="@{workdir}/tei-step3">
+				<include name="@{workdir}/tei-step2/*.xml"/>
+				<flattenmapper/>
+				<param name="modern" type="BOOLEAN" expression="@{modern}"/>
+			</xsl>
+			<xsl style="xsl/iml-tei-step4.xsl" destdir="ise3">
+				<include name="@{workdir}/tei-step3/*.xml"/>
+				<regexpmapper from="${site}(.+)_(.+)\.xml" to="texts/\1/main/\0"/>
+			</xsl>
+		</sequential>
+	</macrodef>
 </project>
