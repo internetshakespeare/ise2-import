@@ -693,6 +693,19 @@
 		<!-- not used in modern -->
 	</xsl:template>
 
+	<xsl:template match="PLACENAME">
+		<xsl:choose>
+			<xsl:when test="$modern">
+				<!-- preserve, but drop @ref -->
+				<placeName><xsl:apply-templates/></placeName>
+			</xsl:when>
+			<xsl:otherwise>
+				<!-- don't keep placename in OS -->
+				<xsl:apply-templates/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:template>
+
 	<!-- drop formatting switches -->
 	<xsl:template match="STYLE | VERTAL | HORZAL | LS | FONT | SC | INDENT"/>
 
