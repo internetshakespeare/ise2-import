@@ -74,7 +74,16 @@
 
 	<target name="xwiki" description="convert XWiki texts"/>
 
-	<target name="apparatus" description="convert annotations and collations"/>
+	<target name="apparatus" description="convert annotations and collations">
+		<xsl style="xsl/apparatus.xsl" destdir="ise3">
+			<include name="ise2/annotations/*_*_annotation.xml"/>
+			<include name="ise2/collations/*_*_collation.xml"/>
+			<regexpmapper
+				from="ise2/[^/]+/([^_]+)_(.*)_(annotation|collation).xml"
+				to="texts/\1/app/ise\1_\2_\3s.xml"
+			/>
+		</xsl>
+	</target>
 
 	<target name="facsimiles" description="convert facsimiles">
 		<dependset>

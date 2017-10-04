@@ -172,6 +172,11 @@
 		<xsl:sequence select="meta:meta-doc('works', $ref)"/>
 	</xsl:function>
 
+	<xsl:function name="meta:edition" as="document-node()">
+		<xsl:param name="ref"/>
+		<xsl:sequence select="meta:meta-doc('editions', $ref)"/>
+	</xsl:function>
+
 	<xsl:function name="meta:document" as="document-node()">
 		<xsl:param name="ref"/>
 		<xsl:sequence select="meta:meta-doc('documents', $ref)"/>
