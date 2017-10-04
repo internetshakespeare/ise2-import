@@ -148,7 +148,7 @@
 			<local name="files"/>
 			<pathconvert property="files" refid="@{filesRef}" pathsep=" "/>
 			<!-- use isetools to validate and expand curly-escapes -->
-			<java classname="ise2import.ValidateAndExpand" failonerror="true">
+			<java classname="ise2import.ValidateAndExpand" failonerror="yes" fork="yes">
 				<arg line="-o @{to}/raw ${files}"/>
 				<classpath>
 					<pathelement path="classes"/>
@@ -258,13 +258,15 @@
 							pattern="\s*\n+"
 							replace="&lt;lb ed='this'&gt;&lt;/lb&gt;"
 							flags="g"/>
+						<replaceregex pattern="^" replace="&lt;!DOCTYPE WORK&gt;"/>
 					</tokenfilter>
 				</filterchain>
 			</copy>
 			<!-- convert to XML using osx -->
  			<mkdir dir="@{to}/osx"/> <!-- redirector fails if dir doesn't exist already -->
- 			<apply executable="osx" dest="@{to}/osx" timeout="2000" skipemptyfilesets="yes">
- 				<arg line="-E100"/>
+ 			<apply executable="osx" dest="@{to}/osx" timeout="2000" skipemptyfilesets="yes" failonerror="yes">
+ 				<arg value="-E100"/>
+ 				<arg value="-wno-valid"/>
 				<srcFile/>
 				<fileset dir="@{to}/fixup" includes="*.txt"/>
 				<globmapper from="*.txt" to="*.xml"/>

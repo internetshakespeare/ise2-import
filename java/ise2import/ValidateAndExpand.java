@@ -48,7 +48,7 @@ public class ValidateAndExpand {
 			}
 			System.out.println("Running isetools on input IML");
 			if (!run(outputDir, cmd.getArgs())) {
-				System.err.println("One or more input files are invalid IML.");
+				System.err.println("One or more input files are invalid IML; check the output folder for error logs.");
 				System.exit(1);
 			}
 		}
@@ -81,7 +81,7 @@ public class ValidateAndExpand {
 			File outFile = new File(outputDir, imlFile.getName());
 			File logFile = new File(
 				outputDir,
-				imlFile.getName().replace("\\.txt$", "-log.txt")
+				imlFile.getName().replaceAll("\\.txt$", "-errors.log")
 			);
 			// if the output already exists and is newer, don't regenerate!
 			if (outFile.lastModified() >= imlFile.lastModified()) {
