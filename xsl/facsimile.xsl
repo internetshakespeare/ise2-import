@@ -308,7 +308,7 @@
 	</xsl:template>
 
 	<xsl:template match="f:workMap" mode="textClass">
-		<xsl:variable name="work" select="util:catRef-for-work(f:work/@ref)"/>
+		<xsl:sequence select="util:catRef-for-work(f:work/@ref)"/>
 	</xsl:template>
 
 	<xsl:template match="f:workMap" mode="msContents">
