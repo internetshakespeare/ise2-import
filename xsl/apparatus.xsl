@@ -166,6 +166,7 @@
 			<xsl:choose>
 				<xsl:when test="@n = '2'">commentary</xsl:when>
 				<xsl:when test="@n = 'perf'">performance</xsl:when>
+				<xsl:when test="@n = 'video'">performance</xsl:when>
 				<xsl:when test="@n = 'ped'">pedagogical</xsl:when>
 				<xsl:otherwise>
 					<xsl:message terminate="yes">Unrecognized note level "<xsl:value-of select="@n"/>"</xsl:message>
