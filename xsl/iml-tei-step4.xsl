@@ -38,9 +38,16 @@
 		[empty(@type)]
 		[
 			preceding::node()[1]
-				[self::lb[empty(@type)]]
+				[self::lb[empty(@type) or @type = 'hyphenInWord']]
 		]
 "/>
+
+<!-- drop lb/@type's that aren't useful any more -->
+<xsl:template match="lb[@type = ('hyphenInWord', 'hw')]">
+	<xsl:copy>
+		<xsl:apply-templates select="@break"/>
+	</xsl:copy>
+</xsl:template>
 
 <!-- drop the initial lb in 2nd+ ab of a speech (left over from before ab introduced) -->
 <xsl:template match="sp/ab[preceding-sibling::ab]/*[1][self::lb][empty(@type)]"/>
