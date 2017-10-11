@@ -24,9 +24,9 @@
 	<xsl:output method="xml" indent="yes" saxon:suppress-indentation="tei:lb tei:gap tei:hi"/>
 
 	<xsl:variable name="targetId" select="/*/@for"/>
+	<xsl:variable name="targetDoc" select="meta:document($targetId)"/>
 	<xsl:variable name="teiTargetId" select="concat($site, replace($targetId, '^doc_', ''))"/>
 	<xsl:variable name="workId" select="replace($targetId, '^doc_|_.*$', '')"/>
-	<xsl:variable name="edition" select="meta:edition(concat('edition_', $workId))"/>
 
 	<xsl:template match="/collations">
 		<xsl:call-template name="appDoc">
@@ -116,14 +116,20 @@
 	<xsl:template name="resp">
 		<xsl:param name="type"/>
 		<xsl:variable name="editor" select="
-			$edition//m:head//m:agent
+			$targetDoc//m:head//m:agent
 				[@role = 'editor']
 				[empty(@class)]
 		"/>
-		<xsl:if test="empty($editor)">
-			<xsl:comment>FIXME: no editor found</xsl:comment>
+		<xsl:variable name="author" select="
+			$targetDoc//m:head//m:agent
+				[@role = 'author']
+				[empty(@class)]
+		"/>
+		<xsl:if test="empty($editor) and empty($author)">
+			<xsl:comment>FIXME: who is the author of this apparatus?</xsl:comment>
 		</xsl:if>
-		<xsl:for-each select="$editor">
+		<xsl:variable name="use" select="if (exists($author)) then $author else $editor"/>
+		<xsl:for-each select="$use">
 			<respStmt>
 				<resp>
 					<xsl:attribute name="ref">
