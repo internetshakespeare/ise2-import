@@ -193,7 +193,7 @@
 						</xsl:catch>
 					</xsl:try>
 					<xsl:if test="$metadataDoc//isetext:peerReviewed = 'true'">
-							<catRef scheme="idt:{$site}DocumentTypes" target="idt:idtPeerReviewed"/>
+						<catRef scheme="idt:{$site}DocumentFlags" target="idt:idtPeerReviewed"/>
 					</xsl:if>
 				</textClass>
 			</profileDesc>

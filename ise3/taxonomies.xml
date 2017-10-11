@@ -328,6 +328,18 @@
 					</category>
 				</taxonomy>
 
+				<taxonomy xml:id="iseDocumentFlags">
+					<category xml:id="idtUnderReview">
+						<catDesc>Document is currently undergoing peer review.</catDesc>
+					</category>
+					<category xml:id="idtPeerReviewed">
+						<catDesc>Document has been peer reviewed.</catDesc>
+					</category>
+					<category xml:id="idtBroadview">
+						<catDesc>Also published by Broadview Press.</catDesc>
+					</category>
+				</taxonomy>
+
 				<!--Responsibility types-->
 				<taxonomy xml:id="iseRespTaxonomy" n="resp">
 					<category xml:id="anl" corresp="marc:anl">
