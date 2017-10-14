@@ -14,6 +14,7 @@
 
 	<property name="myID" value="${user.name}"/>
 	<property name="site" value="ise"/>
+	<property name="metadata" value="ise2/metadata"/>
 	<property name="taxonomies" value="${basedir}/ise3/taxonomies.xml"/>
 	<property name="orgography" value="${basedir}/ise3/orgography.xml"/>
 	<property name="personography" value="${basedir}/ise3/personography.xml"/>
@@ -36,14 +37,6 @@
 	<fileset id="src.apparatus" dir="ise2">
 		<include name="annotations/*_annotation.xml"/>
 		<include name="collations/*_collation.xml"/>
-	</fileset>
-
-	<fileset id="src.facsimile.copy" dir="ise2">
-		<include name="metadata/copies/copy_*.xml"/>
-	</fileset>
-
-	<fileset id="src.edition" dir="ise2">
-		<include name="metadata/editions/edition_*.xml"/>
 	</fileset>
 
 <!--#########################################################################-->
@@ -90,7 +83,7 @@
 			<targetfileset dir="ise3/facsimiles" includes="*.xml"/>
 		</dependset>
 		<xsl style="xsl/facsimile.xsl" destdir="ise3">
-			<fileset refid="src.facsimile.copy"/>
+			<include name="${metadata}/copies/copy_*.xml"/>
 			<regexpmapper from="^.*/(copy_[^/]+\.xml)$$" to="facsimiles/\1"/>
 		</xsl>
 	</target>
@@ -101,10 +94,10 @@
 			<targetfileset dir="ise3/texts" includes="*/supp/*_edition.xml"/>
 		</dependset>
 		<xsl style="xsl/edition.xsl" destdir="ise3">
-			<fileset refid="src.edition"/>
+			<include name="${metadata}/editions/edition_*.xml"/>
 			<regexpmapper
-				from="^(.*)/edition_(.*)\.xml$$"
-				to="texts/\2/supp/ise\2_edition.xml"
+				from="^.*/edition_(.*)\.xml$$"
+				to="texts/\1/supp/ise\1_edition.xml"
 			/>
 		</xsl>
 	</target>
@@ -138,7 +131,7 @@
 				<inout/>
 				<param name="runBy" expression="${myID}"/>
 				<param name="site" expression="${site}"/>
-				<param name="metadataPath" expression="${basedir}/ise2/metadata"/>
+				<param name="metadataPath" expression="${basedir}/${metadata}"/>
 				<param name="personographyPath" expression="${personography}"/>
 				<param name="orgographyPath" expression="${orgography}"/>
 				<param name="taxonomiesPath" expression="${taxonomies}"/>
