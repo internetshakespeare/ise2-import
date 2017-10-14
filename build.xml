@@ -31,9 +31,9 @@
 		<include name="documents/iml/doc_*Me.txt"/>
 	</fileset>
 
-	<fileset id="src.xwiki" dir="ise2">
-		<include name="documents/xwiki/*.xml"/>
-	</fileset>
+	<patternset id="src.xwiki">
+		<include name="ise2/documents/xwiki/*.xml"/>
+	</patternset>
 
 	<fileset id="src.apparatus" dir="ise2">
 		<include name="annotations/*_annotation.xml"/>
@@ -89,7 +89,19 @@
 		</get>
 	</target>
 
-	<target name="xwiki" description="convert XWiki texts"/>
+	<target name="xwiki" description="convert XWiki texts">
+		<dependset>
+			<srcfilelist dir="xsl" files="xwiki-tei.xsl, global.xsl, util.xsl, metadata.xsl, ilink.xsl"/>
+			<targetfileset dir="ise3" includes="texts/*/supp/*.xml"/>
+		</dependset>
+		<xsl style="xsl/xwiki-tei.xsl" destdir="ise3">
+			<patternset refid="src.xwiki"/>
+			<regexpmapper
+				from="([^/_]+)_([^/]+\.xml)$$"
+				to="texts/\1/supp/ise\2"
+			/>
+		</xsl>
+	</target>
 
 	<target name="apparatus" description="convert annotations and collations">
 		<xsl style="xsl/apparatus.xsl" destdir="ise3">
