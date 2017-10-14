@@ -35,10 +35,10 @@
 		<include name="ise2/documents/xwiki/*.xml"/>
 	</patternset>
 
-	<fileset id="src.apparatus" dir="ise2">
-		<include name="annotations/*_annotation.xml"/>
-		<include name="collations/*_collation.xml"/>
-	</fileset>
+	<patternset id="src.apparatus">
+		<include name="ise2/annotations/*_annotation.xml"/>
+		<include name="ise2/collations/*_collation.xml"/>
+	</patternset>
 
 <!--#########################################################################-->
 <!--## Conversion tasks                                                    ##-->
@@ -105,7 +105,7 @@
 
 	<target name="apparatus" description="convert annotations and collations">
 		<xsl style="xsl/apparatus.xsl" destdir="ise3">
-			<fileset refid="src.apparatus"/>
+			<patternset refid="src.apparatus"/>
 			<regexpmapper
 				from="([^/_]+)_(.*)_(annotation|collation).xml$$"
 				to="texts/\1/app/ise\1_\2_\3s.xml"
