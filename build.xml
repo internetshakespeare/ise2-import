@@ -18,6 +18,7 @@
 	<property name="taxonomies" value="${basedir}/ise3/taxonomies.xml"/>
 	<property name="orgography" value="${basedir}/ise3/orgography.xml"/>
 	<property name="personography" value="${basedir}/ise3/personography.xml"/>
+	<property name="xwiki-exporter" value="http://isebeta.uvic.ca/xwiki/bin/view/IseCode/PublishedPagePipe?xpage=plain"/>
 
 	<fileset id="src.iml.os" dir="ise2">
 		<include name="documents/iml/doc_*.txt"/>
@@ -63,7 +64,30 @@
 
 	<target name="iml" description="convert all IML texts" depends="iml-os, iml-modern"/>
 
-	<target name="xwiki-src" description="fetch XWiki texts from the isebeta XWiki server"/>
+	<target name="xwiki-src" description="fetch XWiki texts from the isebeta XWiki server">
+		<property name="src.urls" value="xwiki-urls.txt"/>
+		<dependset>
+			<sources>
+				<file file="${metadata}/collections/${site}.xml"/>
+				<fileset dir="${metadata}/editions" includes="edition_*.xml"/>
+			</sources>
+			<targetfilelist dir="work" files="${src.urls}"/>
+		</dependset>
+		<xsl style="xsl/xwiki-list-urls.xsl" destdir="work">
+			<include name="${metadata}/collections/${site}.xml"/>
+			<mergemapper to="xwiki-urls.txt"/>
+			<param name="xwikiBaseUrl" expression="${xwiki-exporter}"/>
+		</xsl>
+ 		<get usetimestamp="yes" tryGzipEncoding="yes" dest="ise2/documents/xwiki" ignoreerrors="yes">
+			<resourcelist>
+				<file file="work/${src.urls}"/>
+			</resourcelist>
+			<mapper type="regexp"
+				from="&amp;page=texts.([^&amp;]+).*&amp;edition=([^&amp;]+)"
+				to="\2_\1.xml"
+			/>
+		</get>
+	</target>
 
 	<target name="xwiki" description="convert XWiki texts"/>
 
