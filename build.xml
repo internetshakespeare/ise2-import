@@ -33,7 +33,7 @@
 		<include name="documents/xwiki/*.xml"/>
 	</fileset>
 
-	<fileset id="src.apparatus.ann" dir="ise2">
+	<fileset id="src.apparatus" dir="ise2">
 		<include name="annotations/*_annotation.xml"/>
 		<include name="collations/*_collation.xml"/>
 	</fileset>
@@ -76,10 +76,9 @@
 
 	<target name="apparatus" description="convert annotations and collations">
 		<xsl style="xsl/apparatus.xsl" destdir="ise3">
-			<include name="ise2/annotations/*_*_annotation.xml"/>
-			<include name="ise2/collations/*_*_collation.xml"/>
+			<fileset refid="src.apparatus"/>
 			<regexpmapper
-				from="ise2/[^/]+/([^_]+)_(.*)_(annotation|collation).xml"
+				from="([^/_]+)_(.*)_(annotation|collation).xml$$"
 				to="texts/\1/app/ise\1_\2_\3s.xml"
 			/>
 		</xsl>
