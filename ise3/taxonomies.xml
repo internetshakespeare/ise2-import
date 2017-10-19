@@ -260,36 +260,39 @@
 						<catDesc>Supplements an idtPrimary document.</catDesc>
 						<category xml:id="idtParatextCritical">
 							<catDesc>Critical material.</catDesc>
-							<category xml:id="idtParatextCriticalIntroduction">
+							<category xml:id="idtParatextCriticalIntroduction" n="genIntro">
 								<catDesc>Critical introduction.</catDesc>
 							</category>
 						</category>
 						<category xml:id="idtParatextHistory">
 							<catDesc>Historical overview.</catDesc>
-							<category xml:id="idtParatextHistoryPerformance">
+							<category xml:id="idtParatextHistoryPerformance" n="performanceHistory">
 								<catDesc>Performance history.</catDesc>
 							</category>
-							<category xml:id="idtParatextHistoryCriticism">
+							<category xml:id="idtParatextHistoryCriticism" n="criticalSurvey">
 								<catDesc>History of criticism.</catDesc>
 							</category>
-							<category xml:id="idtParatextHistoryTextual">
+							<category xml:id="idtParatextHistoryTextual" n="textualHistory">
 								<catDesc>Textual history.</catDesc>
 							</category>
 						</category>
-						<category xml:id="idtParatextCharacters">
+						<category xml:id="idtParatextCharacters" n="characters">
 							<catDesc>List of dramatic personae or other literary characters.</catDesc>
 						</category>
 						<category xml:id="idtParatextContextual">
 							<catDesc>Contextual supplement.</catDesc>
 							<!-- Eg, Mardock's essay on war in the 16C for H5 -->
 						</category>
-						<category xml:id="idtParatextGlossary">
+						<category xml:id="idtParatextAppendix" n="footnotes">
+							<catDesc>Annotative appendix.</catDesc>
+						</category>
+						<category xml:id="idtParatextGlossary" n="glossary">
 							<catDesc>Glossary.</catDesc>
 						</category>
-						<category xml:id="idtParatextChronology">
+						<category xml:id="idtParatextChronology" n="chronology">
 							<catDesc>List of dates and times.</catDesc>
 						</category>
-						<category xml:id="idtParatextPedagogical">
+						<category xml:id="idtParatextPedagogical" n="teachingNotes">
 							<catDesc>Teaching notes, assignments, or other pedagogical engagements.</catDesc>
 						</category>
 					</category>

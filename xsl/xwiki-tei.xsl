@@ -27,8 +27,7 @@
 	<xsl:variable name="metadataDoc" select="
 		meta:document(replace(document-uri(), $uriRex, 'doc_$3'))
 	"/>
-	<xsl:variable name="work" select="replace(document-uri(), $uriRex, '$2')"/>
-	<xsl:variable name="workIds" select="$taxonomies//tei:taxonomy[@xml:id='iseWorks']/descendant::tei:category/@xml:id"/>
+	<xsl:variable name="work" select="$metadataDoc//m:work[@rel='identity']"/>
 	<xsl:variable name="docClass" select="$metadataDoc//m:documentClass"/>
 
 	<xsl:template match="/">
@@ -57,34 +56,48 @@
 					<p>Born digital.</p>
 				</sourceDesc>
 			</fileDesc>
-			<xsl:variable name="docType" as="xs:string+">
-				<xsl:choose>
-					<xsl:when test="$docClass = 'dramaticWork'">idtPrimary</xsl:when>
-					<xsl:otherwise>idtBornDigital</xsl:otherwise>
-				</xsl:choose>
-				<xsl:choose>
-					<xsl:when test="$docClass = 'bibliography'">idtParatextBibl</xsl:when>
-					<xsl:when test="$docClass = 'chronology'">idtParatextChronology</xsl:when>
-					<xsl:when test="$docClass = 'glossary'">idtParatextGloss</xsl:when>
-					<xsl:when test="$docClass = 'characters'">idtParatextCharacters</xsl:when>
-					<xsl:when test="$docClass = 'footnotes'">idtParatext</xsl:when>
-					<xsl:when test="$docClass = 'teachingNotes'">idtParatextPedagogical</xsl:when>
-					<xsl:when test="$docClass = 'genIntro'">idtParatextCritIntro</xsl:when>
-					<xsl:when test="$docClass = 'criticalSurvey'">idtParatextHistCrit</xsl:when>
-					<xsl:when test="$docClass = 'performanceHistory'">idtParatextHistPerf</xsl:when>
-					<xsl:when test="$docClass = 'textualHistory'">idtParatextHistText</xsl:when>
-					<xsl:when test="$docClass = 'dramaticWork'">idtParatext</xsl:when>
-					<xsl:otherwise>idtParatext</xsl:otherwise>
-				</xsl:choose>
-			</xsl:variable>
 			<profileDesc>
 				<textClass>
-					<xsl:if test="concat('ise', $work) = $workIds">
-						<catRef scheme="idt:iseWorks" target="idt:ise{$work}"/>
+					<xsl:if test="$work">
+						<xsl:sequence select="util:catRef-for-work($work/@ref)"/>
+						<xsl:variable name="workDoc" select="meta:work($work/@ref)"/>
+						<xsl:choose>
+							<xsl:when test="$workDoc//m:workClass = 'play'">
+								<catRef scheme="idt:iseDocumentTypes" target="idt:idtPrimaryPlay"/>
+							</xsl:when>
+							<xsl:when test="$workDoc//m:workClass = 'poem'">
+								<catRef scheme="idt:iseDocumentTypes" target="idt:idtPrimaryPoem"/>
+							</xsl:when>
+							<xsl:otherwise>
+								<catRef scheme="idt:iseDocumentTypes" target="idt:idtPrimaryProse"/>
+							</xsl:otherwise>
+						</xsl:choose>
 					</xsl:if>
-					<xsl:for-each select="$docType">
-						<catRef scheme="idt:iseDocumentTypes" target="idt:{.}"/>
-					</xsl:for-each>
+					<xsl:variable name="categories" select="
+						element-for-id($taxonomies, 'iseDocumentTypes')
+							//tei:category[tokenize(@n, ',') = $docClass]
+					"/>
+					<xsl:choose>
+						<xsl:when test="$categories">
+							<xsl:for-each select="$categories">
+								<catRef scheme="idt:iseDocumentTypes" target="idt:{@xml:id}"/>
+							</xsl:for-each>
+						</xsl:when>
+						<xsl:otherwise>
+							<catRef scheme="idt:iseDocumentTypes" target="idt:idtParatext"/>
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:if test="$docClass = 'dramaticWork">
+						<xsl:choose>
+							<xsl:when test="contains(m:description, 'modern')">
+								<catRef scheme="idt:iseDocumentTypes" target="idt:idtPrimaryModern"/>
+							</xsl:when>
+							<xsl:when test="$work"/> <!-- already have an idtPrimary* catRef -->
+							<xsl:otherwise>
+								<catRef scheme="idt:iseDocumentTypes" target="idt:idtPrimary"/>
+							</xsl:otherwise>
+						</xsl:choose>
+					</xsl:if>
 				</textClass>
 			</profileDesc>
 			<encodingDesc>
