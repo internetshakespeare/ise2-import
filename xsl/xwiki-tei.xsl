@@ -232,9 +232,16 @@
 	</xsl:template>
 
 	<xsl:template match="(div | span | a)[@id][normalize-space(.) = '']">
-		<anchor>
-			<xsl:attribute name="n" select="@id"/>
-		</anchor>
+		<xsl:choose>
+			<xsl:when test="matches(@id, '^tln-\d+(\.\d+)?$')">
+				<lb type="tln" n="substring-after(@id, 'tln-')" break="no"/>
+			</xsl:when>
+			<xsl:otherwise>
+				<anchor>
+					<xsl:attribute name="xml:id" select="@id"/>
+				</anchor>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template match="p">
