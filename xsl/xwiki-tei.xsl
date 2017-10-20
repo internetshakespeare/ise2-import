@@ -361,7 +361,7 @@
 	</xsl:template>
 
 	<xsl:template match="hr">
-		<milestone unit="section" rend="horizontal-rule"/>
+		<figure type="rule"/>
 	</xsl:template>
 
 	<xsl:template match="a[@href]">
