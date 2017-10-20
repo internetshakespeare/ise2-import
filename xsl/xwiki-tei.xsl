@@ -251,6 +251,13 @@
 		</xsl:choose>
 	</xsl:template>
 
+	<xsl:variable name="indentRex" select='^(.*(\s+|;))?padding-left:([^;]*).*$'/>
+	<xsl:template match="span[matches(@style, $indentRex)]">
+		<!-- these are usually from broken blockquotes -->
+		<space extent="{replace(@style, $indentRex, '$3')}"/>
+		<xsl:apply-templates/>
+	</xsl:template>
+
 	<xsl:template match="p">
 		<p>
 			<xsl:choose>
