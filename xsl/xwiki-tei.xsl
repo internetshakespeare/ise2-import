@@ -264,9 +264,28 @@
 	</xsl:template>
 
 	<xsl:template match="blockquote">
-		<quote>
-			<xsl:apply-templates/>
-		</quote>
+		<xsl:variable name="cit" select="(.//ilink:ilink[contains(., 'TLN')])[last()]"/>
+		<xsl:variable name="trim" select="($cit/parent::span, $cit)[1]"/>
+		<xsl:choose>
+			<xsl:when test="$cit">
+				<cit>
+					<quote>
+						<xsl:apply-templates>
+							<xsl:with-param tunnel="yes" name="trim" select="$trim"/>
+						</xsl:apply-templates>
+					</quote>
+					<bibl>
+						<!-- note: skips the wrapping span which was just adding presentational CSS -->
+						<xsl:apply-templates select="$cit"/>
+					</bibl>
+				</cit>
+			</xsl:when>
+			<xsl:otherwise>
+				<quote>
+					<xsl:apply-templates/>
+				</quote>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template match="ol | ul | dl">
@@ -368,6 +387,16 @@
 		<ref target="{@href}">
 			<xsl:apply-templates/>
 		</ref>
+	</xsl:template>
+
+	<xsl:template match="*" priority="99">
+		<xsl:param tunnel="yes" name="trim"/>
+		<xsl:choose>
+			<xsl:when test="exists($trim) and . is $trim"/>
+			<xsl:otherwise>
+				<xsl:next-match/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template match="*" priority="-1">
