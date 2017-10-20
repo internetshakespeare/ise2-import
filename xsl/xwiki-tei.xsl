@@ -278,6 +278,9 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<list>
+					<xsl:if test="self::ol">
+						<xsl:attribute name="rend">ordered</xsl:attribute>
+					</xsl:if>
 					<xsl:apply-templates/>
 				</list>
 			</xsl:otherwise>
