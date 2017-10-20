@@ -101,7 +101,22 @@
 				</textClass>
 			</profileDesc>
 			<encodingDesc>
-				<p>Encoding description coming soon.</p>
+				<listPrefixDef copyOf="global:listPrefixDef"/>
+				<projectDesc copyOf="global:projectDesc"/>
+				<editialDecl copyOf="global:editorialDecl_text"/>
+				<editorialDecl>
+					<xsl:attribute name="copyOf">
+						<xsl:choose>
+							<xsl:when test="not($docClass = 'dramaticWork')">
+								<xsl:text>global:editorialDecl_general</xsl:text>
+							</xsl:when>
+							<xsl:when test="contains(m:description, 'modern')">
+								<xsl:text>global:editorialDecl_modernText</xsl:text>
+							</xsl:when>
+							<xsl:otherwise>global:editorialDecl_osText</xsl:otherwise>
+						</xsl:choose>
+					</xsl:attribute>
+				</editorialDecl>
 			</encodingDesc>
 			<revisionDesc status="converted">
 				<xsl:sequence select="util:conversion-change()"/>
