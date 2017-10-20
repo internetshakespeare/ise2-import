@@ -226,6 +226,13 @@
 		</note>
 	</xsl:template>
 
+	<xsl:variable name="floatRex" select="\bfloat:\s*(left|right)"/>
+	<xsl:template match="div[empty(@loc)][matches(@style, $floatRex)]">
+		<note type="marginal" place="{analyze-string(@style, $floatRex)//*[@nr = 1}">
+			<xsl:apply-templates/>
+		</note>
+	</xsl:template>
+
 	<xsl:template match="div[@class = 'wikimodel-emptyline']">
 		<!--This is weird formatting stuff but I don't think it really matters-->
 		<lb/>
