@@ -222,9 +222,6 @@
 
 	<xsl:template match="div[@loc]">
 		<note type="marginal" place="{@loc}">
-			<xsl:if test="@style">
-				<xsl:attribute name="style" select="@style"/>
-			</xsl:if>
 			<xsl:apply-templates/>
 		</note>
 	</xsl:template>
