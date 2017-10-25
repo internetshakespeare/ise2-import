@@ -139,12 +139,59 @@
 	</target>
 
 <!--#########################################################################-->
+<!--## Validation tasks                                                    ##-->
+
+	<target name="get-tei-xsl">
+		<get
+			src="https://sourceforge.net/projects/tei/files/Stylesheets/tei-xsl-7.43.0.zip/download"
+			dest="lib/tei-xsl-7.43.0.zip"
+			verbose="yes"
+			skipexisting="yes"
+		/>
+		<unzip src="lib/tei-xsl-7.43.0.zip" dest="lib/tei-xsl" overwrite="false"/>
+	</target>
+
+	<target name="compile-odd" depends="get-tei-xsl">
+		<xslt
+			style="lib/tei-xsl/xml/tei/stylesheet/odds/odd2odd.xsl"
+			in="sch/ise.odd"
+			out="sch/ise-epanded.odd">
+			<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+		</xslt>
+		<xslt
+			style="lib/tei-xsl/xml/tei/stylesheet/profiles/default/relaxng/to.xsl"
+			in="sch/ise-expanded.odd"
+			out="sch/ise.rng">
+			<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+		</xslt>
+		<xslt
+			style="lib/tei-xsl/xml/tei/stylesheet/profiles/default/schematron/to.xsl"
+			in="sch/ise.odd"
+			out="sch/ise.sch">
+			<factory name="net.sf.saxon.TransformerFactoryImpl"/>
+		</xslt>
+	</target>
+
+	<target name="validate" depends="compile-odd">
+		<jing rngfile="sch/ise.rng">
+			<fileset dir="${basedir}/ise3">
+				<exclude name="${taxonomies}"/>
+			</fileset>
+		</jing>
+		<schematron schema="sch/ise.sch">
+			<fileset dir="${basedir}/ise3">
+				<exclude name="${taxonomies}"/>
+			</fileset>
+		</schematron>
+	</target>
+
+<!--#########################################################################-->
 <!--## Standard targets                                                    ##-->
 
 	<target
 		name="all"
 		description="convert all available data"
-		depends="iml, xwiki, apparatus, facsimiles, editions"/>
+		depends="iml, xwiki, apparatus, facsimiles, editions, validate"/>
 
 	<target name="clean">
 		<delete dir="ise3/facsimiles"/>

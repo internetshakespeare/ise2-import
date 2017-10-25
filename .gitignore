@@ -4,4 +4,7 @@ ise2/
 ise3/texts/
 ise3/facsimiles/
 .ant-targets-build.xml
-
+lib/tei-xsl/
+lib/tei-xsl-7.43.0.zip
+sch/ise.rng
+sch/ise.sch
