@@ -1,0 +1,25 @@
+<?xml-model href="../../schema/text/collection.rng" type="application/xml" schematypens="http://relaxng.org/ns/structure/1.0" ?>
+<?xml-model href="../../schema/text/collection.rng" type="application/xml" schematypens="http://purl.oclc.org/dsdl/schematron"?>
+<collection xmlns="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/text" xml:id="ise">
+    <head>
+        <titles>
+            <title>Internet Shakespeare Editions</title>
+            <mobileTitle>ISE</mobileTitle>
+        </titles>
+        <resp>
+            <agent role="owner" user="ise"/>
+        </resp>
+        <events>
+        </events>
+        <baseUrl
+            live="http://internetshakespeare.uvic.ca"
+            beta="http://isebeta.uvic.ca"
+        />
+        <siteIcon xmlns:ig="http://internetshakespeare.uvic.ca/exist/rest/db/apps/iseapp/content/schema/image.rng">
+            <ig:webReady href="http://internetshakespeare.uvic.ca/ise-16.png" height="16" width="16"/>
+        </siteIcon>
+    </head>
+    <content>
+        <edition ref="edition_MV"/>
+    </content>
+</collection>
