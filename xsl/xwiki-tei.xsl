@@ -59,7 +59,10 @@
 			<profileDesc>
 				<textClass>
 					<xsl:if test="$work">
-						<xsl:sequence select="util:catRef-for-work($work/@ref)"/>
+						<xsl:try>
+							<xsl:sequence select="util:catRef-for-work($work/@ref)"/>
+							<xsl:catch/>
+						</xsl:try>
 						<xsl:variable name="workDoc" select="meta:work($work/@ref)"/>
 						<xsl:choose>
 							<xsl:when test="$workDoc//m:workClass = 'play'">
