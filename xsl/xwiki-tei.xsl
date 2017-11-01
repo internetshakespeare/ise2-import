@@ -241,7 +241,9 @@
 	<xsl:template match="(div | span | a)[@id][normalize-space(.) = '']">
 		<xsl:choose>
 			<xsl:when test="matches(@id, '^tln-\d+(\.\d+)?$')">
-				<lb type="tln" n="substring-after(@id, 'tln-')" break="no"/>
+				<anchor type="tln">
+					<xsl:attribute name="xml:id" select="@n"/>
+				</anchor>
 			</xsl:when>
 			<xsl:otherwise>
 				<anchor>
