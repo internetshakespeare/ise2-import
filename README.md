@@ -18,7 +18,6 @@ Output will be validated against the ODD/RelaxNG/Schematron provided in the "sch
 ## Dependencies
 
 * OpenSP, specifically osx (http://openjade.sourceforge.net/doc/)
-* Ant-Contrib (http://ant-contrib.sourceforge.net)
 * isetools (included) (https://github.com/internetshakespeare/isetools)
 * SaxonHE 9.8 (included) (http://www.saxonica.com)
 * Jing (included) (https://github.com/relaxng/jing-trang)
