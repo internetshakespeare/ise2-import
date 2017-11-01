@@ -75,7 +75,7 @@
 		</dependset>
 		<xsl style="xsl/xwiki-list-urls.xsl" destdir="work">
 			<include name="${metadata}/collections/${site}.xml"/>
-			<mergemapper to="xwiki-urls.txt"/>
+			<mergemapper to="${src.urls}"/>
 			<param name="xwikiBaseUrl" expression="${xwiki-exporter}"/>
 		</xsl>
 		<condition property="xwiki.todo">
