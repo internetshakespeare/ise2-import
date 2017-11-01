@@ -245,7 +245,7 @@
 		<xsl:choose>
 			<xsl:when test="matches(@id, '^tln-\d+(\.\d+)?$')">
 				<anchor type="tln">
-					<xsl:attribute name="xml:id" select="@n"/>
+					<xsl:attribute name="xml:id" select="@id"/>
 				</anchor>
 			</xsl:when>
 			<xsl:otherwise>
