@@ -3,7 +3,6 @@
 	<description>ISE2->ISE3 conversion scripts</description>
 
 	<import file="lib/schematron/ant-macro.xml"/>
-	<taskdef resource="net/sf/antcontrib/antcontrib.properties"/>
 	<taskdef
 		name="jing"
 		classname="com.thaiopensource.relaxng.util.JingTask"
