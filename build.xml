@@ -65,7 +65,7 @@
 	<target name="iml" description="convert all IML texts" depends="iml-os, iml-modern"/>
 
 	<target name="xwiki-src" description="fetch XWiki texts from the isebeta XWiki server">
-		<property name="src.urls" value="xwiki-urls.txt"/>
+		<property name="src.urls" value="xwiki-urls-${site}.txt"/>
 		<dependset>
 			<sources>
 				<file file="${metadata}/collections/${site}.xml"/>
