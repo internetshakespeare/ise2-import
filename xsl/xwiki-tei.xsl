@@ -74,7 +74,7 @@
 						</xsl:choose>
 					</xsl:if>
 					<xsl:variable name="categories" select="
-						element-for-id($taxonomies, 'iseDocumentTypes')
+						element-with-id('iseDocumentTypes', $taxonomies)
 							//tei:category[tokenize(@n, ',') = $docClass]
 					"/>
 					<xsl:choose>
@@ -87,7 +87,7 @@
 							<catRef scheme="idt:iseDocumentTypes" target="idt:idtParatext"/>
 						</xsl:otherwise>
 					</xsl:choose>
-					<xsl:if test="$docClass = 'dramaticWork">
+					<xsl:if test="$docClass = 'dramaticWork'">
 						<xsl:choose>
 							<xsl:when test="contains(m:description, 'modern')">
 								<catRef scheme="idt:iseDocumentTypes" target="idt:idtPrimaryModern"/>
@@ -226,9 +226,9 @@
 		</note>
 	</xsl:template>
 
-	<xsl:variable name="floatRex" select="\bfloat:\s*(left|right)"/>
+	<xsl:variable name="floatRex" select="'(^|\s)float:\s*(left|right)'"/>
 	<xsl:template match="div[empty(@loc)][matches(@style, $floatRex)]">
-		<note type="marginal" place="{analyze-string(@style, $floatRex)//*[@nr = 1}">
+		<note type="marginal" place="{analyze-string(@style, $floatRex)//*[@nr = 2]}">
 			<xsl:apply-templates/>
 		</note>
 	</xsl:template>
@@ -253,7 +253,7 @@
 		</xsl:choose>
 	</xsl:template>
 
-	<xsl:variable name="indentRex" select='^(.*(\s+|;))?padding-left:([^;]*).*$'/>
+	<xsl:variable name="indentRex" select="'^(.*(\s+|;))?padding-left:([^;]*).*$'"/>
 	<xsl:template match="span[matches(@style, $indentRex)]">
 		<!-- these are usually from broken blockquotes -->
 		<space extent="{replace(@style, $indentRex, '$3')}"/>
@@ -406,7 +406,7 @@
 	</xsl:template>
 
 	<xsl:template match="*" priority="99">
-		<xsl:param tunnel="yes" name="trim"/>
+		<xsl:param tunnel="yes" name="trim" as="node()?"/>
 		<xsl:choose>
 			<xsl:when test="exists($trim) and . is $trim"/>
 			<xsl:otherwise>
