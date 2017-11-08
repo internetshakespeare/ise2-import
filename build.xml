@@ -155,7 +155,7 @@
 		<xslt
 			style="lib/tei-xsl/xml/tei/stylesheet/odds/odd2odd.xsl"
 			in="sch/ise.odd"
-			out="sch/ise-epanded.odd">
+			out="sch/ise-expanded.odd">
 			<factory name="net.sf.saxon.TransformerFactoryImpl"/>
 		</xslt>
 		<xslt
