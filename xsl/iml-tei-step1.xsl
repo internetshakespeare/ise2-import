@@ -271,7 +271,7 @@
 	<xsl:template match="S">
 		<sp>
 			<xsl:sequence select="hcmc:checkForAncestorStyles(.)"/>
-			<xsl:if test="$modern and descendant::SP[@NORM]">
+			<xsl:if test="descendant::SP[@NORM]">
 				<xsl:attribute name="who" select="hcmc:normalizeSpeakerIds(descendant::SP[@NORM][1]/@NORM)"/>
 			</xsl:if>
 			<!-- <SP> is often embedded in other crap. We need to pull it out here. -->
@@ -299,7 +299,7 @@
 					<xsl:sequence select="hcmc:checkForAncestorStyles(.)"/>
 					<xsl:comment>
 						<xsl:text>FIXME: this should be converted to a tei:stage element</xsl:text>
-						<xsl:if test="$modern and @T"> <!-- no stage types in OS -->
+						<xsl:if test="@T">
 							<xsl:text>with @type="</xsl:text>
 							<xsl:value-of select="replace(@T, ',\s*', ' ')"/>
 							<xsl:text>"</xsl:text>
@@ -312,7 +312,7 @@
 			<xsl:otherwise>
 				<stage>
 					<xsl:sequence select="hcmc:checkForAncestorStyles(.)"/>
-					<xsl:if test="$modern and @T"> <!-- no stage types in OS -->
+					<xsl:if test="@T">
 						<xsl:variable name="oldTypes" select="tokenize(@T, ',\s*')"/>
 						<xsl:if test="'uncertain' = $oldTypes">
 							<xsl:attribute name="cert">low</xsl:attribute>
@@ -341,48 +341,32 @@
 	</xsl:template>
 
 	<xsl:template match="PROP">
-		<xsl:choose>
-			<xsl:when test="$modern">
-				<rs type="prop">
-					<xsl:sequence select="hcmc:checkForAncestorStyles(.)"/>
-					<xsl:if test="@ITEM">
-						<xsl:attribute name="n" select="@ITEM"/>
-					</xsl:if>
-					<xsl:if test="@DESC">
-						<note><xsl:value-of select="@DESC"/></note>
-						<xsl:message>WARN: use of PROP/@desc should probably be converted to a performance note; preserving in a tei:note for now</xsl:message>
-					</xsl:if>
-					<xsl:apply-templates/>
-				</rs>
-			</xsl:when>
-			<xsl:otherwise>
-				<!-- drop PROP in OS -->
-				<xsl:apply-templates/>
-			</xsl:otherwise>
-		</xsl:choose>
+		<rs type="prop">
+			<xsl:sequence select="hcmc:checkForAncestorStyles(.)"/>
+			<xsl:if test="@ITEM">
+				<xsl:attribute name="n" select="@ITEM"/>
+			</xsl:if>
+			<xsl:if test="@DESC">
+				<note><xsl:value-of select="@DESC"/></note>
+				<xsl:message>WARN: use of PROP/@desc should probably be converted to a performance note; preserving in a tei:note for now</xsl:message>
+			</xsl:if>
+			<xsl:apply-templates/>
+		</rs>
 	</xsl:template>
 
 	<xsl:template match="QUOTE">
-		<xsl:choose>
-			<xsl:when test="$modern">
-				<quote>
-					<xsl:sequence select="hcmc:checkForAncestorStyles(.)"/>
-					<xsl:variable name="mode" select="preceding::MODE[1][@T != 'end']"/>
-					<xsl:if test="$mode">
-						<xsl:attribute name="type" select="$mode/@T"/>
-					</xsl:if>
-					<xsl:if test="@SOURCE">
-						<xsl:attribute name="source" select="concat('src:',replace(@SOURCE,'[\s\[\],]',''))"/>
-						<xsl:message>WARN: QUOTE/@source will need to be fixed by hand</xsl:message>
-					</xsl:if>
-					<xsl:apply-templates/>
-				</quote>
-			</xsl:when>
-			<xsl:otherwise>
-				<!-- drop QUOTE in OS -->
-				<xsl:apply-templates/>
-			</xsl:otherwise>
-		</xsl:choose>
+		<quote>
+			<xsl:sequence select="hcmc:checkForAncestorStyles(.)"/>
+			<xsl:variable name="mode" select="preceding::MODE[1][@T != 'end']"/>
+			<xsl:if test="$mode">
+				<xsl:attribute name="type" select="$mode/@T"/>
+			</xsl:if>
+			<xsl:if test="@SOURCE">
+				<xsl:attribute name="source" select="concat('src:',replace(@SOURCE,'[\s\[\],]',''))"/>
+				<xsl:message>WARN: QUOTE/@source will need to be fixed by hand</xsl:message>
+			</xsl:if>
+			<xsl:apply-templates/>
+		</quote>
 	</xsl:template>
 
 	<xsl:template match="TLN | QLN | WLN">
@@ -461,9 +445,7 @@
 	</xsl:template>
 
 	<xsl:template match="MODE">
-		<xsl:if test="$modern"> <!-- drop MODE in OS -->
-			<milestone unit="nonstructural" type="mode" subtype="{@T}"/>
-		</xsl:if>
+		<milestone unit="nonstructural" type="mode" subtype="{@T}"/>
 	</xsl:template>
 
 	<xsl:template match="SIG">
@@ -521,20 +503,12 @@
 	</xsl:template>
 
 	<xsl:template match="ABBR">
-		<xsl:choose>
-			<xsl:when test="$modern">
-				<choice>
-					<abbr>
-						<xsl:sequence select="hcmc:checkForAncestorStyles(.)"/><xsl:apply-templates/>
-					</abbr>
-					<expan><xsl:value-of select="@EXPAN"/></expan>
-				</choice>
-			</xsl:when>
-			<xsl:otherwise>
-				<!-- drop ABBR in OS -->
-				<xsl:apply-templates/>
-			</xsl:otherwise>
-		</xsl:choose>
+		<choice>
+			<abbr>
+				<xsl:sequence select="hcmc:checkForAncestorStyles(.)"/><xsl:apply-templates/>
+			</abbr>
+			<expan><xsl:value-of select="@EXPAN"/></expan>
+		</choice>
 	</xsl:template>
 
 	<xsl:template match="MARG">
@@ -585,31 +559,14 @@
 	</xsl:template>
 
 	<xsl:template match="LINEGROUP">
-		<xsl:choose>
-			<xsl:when test="$modern">
-				<xsl:call-template name="grouped-lines"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<!-- drop LINEGROUP in OS -->
-				<xsl:apply-templates/>
-			</xsl:otherwise>
-		</xsl:choose>
+		<xsl:call-template name="grouped-lines"/>
 	</xsl:template>
 
 	<xsl:template match="STANZA">
-		<xsl:choose>
-			<xsl:when test="$modern">
-				<xsl:call-template name="grouped-lines"/>
-			</xsl:when>
-			<xsl:otherwise>
-				<!-- STANZAs were inferred by spacing in OS -->
-				<xsl:apply-templates/>
-				<space dim="vertical"/>
-			</xsl:otherwise>
-		</xsl:choose>
+		<xsl:call-template name="grouped-lines"/>
 	</xsl:template>
 
-	<!-- called for $modern LINEGROUP|STANZA -->
+	<!-- called for LINEGROUP|STANZA -->
 	<xsl:template name="grouped-lines">
 		<lg>
 			<xsl:sequence select="hcmc:checkForAncestorStyles(.)"/>
@@ -649,10 +606,10 @@
 	</xsl:template>
 
 	<xsl:template match="CL">
-		<xsl:element name="{if ($modern) then 'closer' else 'ab'}">
+		<closer>
 			<xsl:sequence select="hcmc:checkForAncestorStyles(.)"/>
 			<xsl:apply-templates/>
-		</xsl:element>
+		</closer>
 	</xsl:template>
 
 	<xsl:template match="LD">
@@ -694,16 +651,8 @@
 	</xsl:template>
 
 	<xsl:template match="PLACENAME">
-		<xsl:choose>
-			<xsl:when test="$modern">
-				<!-- preserve, but drop @ref -->
-				<placeName><xsl:apply-templates/></placeName>
-			</xsl:when>
-			<xsl:otherwise>
-				<!-- don't keep placename in OS -->
-				<xsl:apply-templates/>
-			</xsl:otherwise>
-		</xsl:choose>
+		<!-- preserve, but drop @ref -->
+		<placeName><xsl:apply-templates/></placeName>
 	</xsl:template>
 
 	<!-- drop formatting switches -->

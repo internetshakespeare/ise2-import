@@ -3,6 +3,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	exclude-result-prefixes="#all"
 	xmlns="http://www.tei-c.org/ns/1.0"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	xmlns:xd="http://www.oxygenxml.com/ns/doc/xsl"
 	xmlns:saxon="http://saxon.sf.net/"
 	xpath-default-namespace="http://www.tei-c.org/ns/1.0"
@@ -20,6 +21,7 @@
 </xd:doc>
 
 <xsl:output encoding="UTF-8" method="xml" indent="true" saxon:suppress-indentation="hi g"/>
+<xsl:param name="modern" as="xs:boolean"/>
 <xsl:variable name="pageMarkup" select="('pb', 'cb', 'fw')"/>
 
 <!-- drop line-endings at mode changes (captured by other markup) -->
@@ -76,8 +78,8 @@
 	<xsl:apply-templates/>
 </xsl:template>
 
-<!-- drop MODE milestones, now that we've finished using them -->
-<xsl:template match="milestone[@type='mode']"/>
+<!-- drop MODE milestones in modern (they're encoded as ab/l) -->
+<xsl:template match="milestone[$modern][@type='mode']"/>
 
 <!-- convert part-line milestones into @part, @next, @prev -->
 <xsl:template match="l">

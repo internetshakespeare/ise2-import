@@ -396,6 +396,7 @@
 			<xsl style="xsl/iml-tei-step4.xsl" destdir="ise3">
 				<include name="@{workdir}/tei-step3/*.xml"/>
 				<regexpmapper from="${site}(.+)_(.+)\.xml" to="texts/\1/main/\0"/>
+				<param name="modern" type="BOOLEAN" expression="@{modern}"/>
 			</xsl>
 		</sequential>
 	</macrodef>

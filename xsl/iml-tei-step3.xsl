@@ -18,7 +18,7 @@
 			<xd:p><xd:b>Author:</xd:b> mtaexr</xd:p>
 			<xd:p>
 				This is step 3 in a multi-step process to convert IML to TEI.
-				This step creates the particDesc for speakers in modern texts
+				This step creates the particDesc for speakers
 				and fixes up lineation and line grouping.
 			</xd:p>
 		</xd:desc>
@@ -34,7 +34,7 @@
 		<xsl:variable name="speakerRefs" select="for $s in $speakers return tokenize($s/@who,'\s+')"/>
 		<xsl:variable name="speakerTokens" select="for $s in $speakerRefs[starts-with(.,'sp:')] return substring-after($s,'sp:')"/>
 		<xsl:variable name="uniqueSpeakers" select="distinct-values($speakerTokens)"/>
-		<xsl:if test="$modern and count($uniqueSpeakers) gt 1"> <!-- no particDesc in OS -->
+		<xsl:if test="count($uniqueSpeakers) gt 1">
 			<particDesc>
 				<listPerson>
 					<xsl:for-each select="$uniqueSpeakers">
@@ -52,14 +52,12 @@
 
 	<!--Speaker tags-->
 	<xsl:template match="sp/@who">
-		<xsl:if test="$modern"> <!-- don't keep @who from OS -->
-			<xsl:attribute name="who">
-				<xsl:variable name="whoTokens" select="tokenize(., '\s+')"/>
-				<xsl:variable name="whoNames" select="for $n in $whoTokens return substring-after($n, 'sp:')"/>
-				<xsl:variable name="newRefs" select="for $w in $whoNames return concat('#', $newDocId, '_', $w)"/>
-				<xsl:value-of select="string-join($newRefs,' ')"/>
-			</xsl:attribute>
-		</xsl:if>
+		<xsl:attribute name="who">
+			<xsl:variable name="whoTokens" select="tokenize(., '\s+')"/>
+			<xsl:variable name="whoNames" select="for $n in $whoTokens return substring-after($n, 'sp:')"/>
+			<xsl:variable name="newRefs" select="for $w in $whoNames return concat('#', $newDocId, '_', $w)"/>
+			<xsl:value-of select="string-join($newRefs,' ')"/>
+		</xsl:attribute>
 	</xsl:template>
 
 	<xsl:function name="hcmc:mustWrap" as="xs:boolean">
@@ -287,7 +285,7 @@
 	</xsl:template>
 
 	<!-- properly lineate line groups -->
-	<xsl:template match="lg"> <!-- note: these only appear in modern -->
+	<xsl:template match="lg">
 		<xsl:copy>
 			<xsl:apply-templates select="@*"/>
 			<xsl:call-template name="line-chunks">
