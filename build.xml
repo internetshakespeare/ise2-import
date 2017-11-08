@@ -143,7 +143,7 @@
 
 	<target name="get-tei-xsl">
 		<get
-			src="https://sourceforge.net/projects/tei/files/Stylesheets/tei-xsl-7.43.0.zip/download"
+			src="https://github.com/TEIC/Stylesheets/releases/download/v7.43.0/tei-xsl-7.43.0.zip"
 			dest="lib/tei-xsl-7.43.0.zip"
 			verbose="yes"
 			skipexisting="yes"
